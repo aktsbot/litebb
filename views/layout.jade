@@ -1,0 +1,18 @@
+doctype html
+html(lang='en')
+  head
+    title= `${title} | ${h.siteName}`
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    nav
+      .app.nav.flex.flex-center.p-v.sm
+        span.flex__grow
+          a(href='/').bold.aubergine.underline--hover #{h.siteName}
+        span.ws-nowrap
+          a(href='/signup').nav__breadcrumb.underline--hover.m-l-md.ws-nowrap Sign Up
+          a(href='/login').nav__breadcrumb.underline--hover.m-l-md.ws-nowrap Log In
+
+    section.app.m-t-md
+      block content

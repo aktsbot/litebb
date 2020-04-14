@@ -1,0 +1,26 @@
+{
+  "development": {
+    "database": "null",
+    "username": "null",
+    "password": "null",
+    "sessionSecret" : "mySessionSecret",
+    "dialect": "sqlite",
+    "storage": "./dbs/litebb.session.db.development.sqlite"
+  },
+  "test": {
+    "database": "null",
+    "username": "null",
+    "password": "null",
+    "sessionSecret" : "mySessionSecret",
+    "dialect": "sqlite",
+    "storage": "./dbs/litebb.session.db.development.sqlite"
+  },
+  "production": {
+    "database": "null",
+    "username": "null",
+    "password": "null",
+    "sessionSecret" : "mySessionSecret",
+    "dialect": "sqlite",
+    "storage": "./dbs/litebb.session.db.development.sqlite"
+  }
+}

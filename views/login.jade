@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .card.center
+    h1 #{title}
+    form(action='/login' method='post' autocomplete='off')
+      .m-v-sm
+        input(type='text' name='username' required='' maxlength='255' autofocus='' placeholder='Username').input-border.p-sm
+      .m-v-sm
+        input(type='password' name='password' required='' minlength='8' maxlength='255' autofocus='' placeholder='Password').input-border.p-sm
+      .m-v-md
+        input(type='submit' value='Log In').button.button-primary
+      .m-v-lg
+        a(href='/forgot-password').underline Forgot Password?
