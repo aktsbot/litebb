@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(
-      'users',
+      'Users',
       'role',
       Sequelize.ENUM('admin', 'regular')
     );
@@ -11,7 +11,7 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn(
-      'users',
+      'Users',
       'role'
     );
   }
