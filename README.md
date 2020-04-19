@@ -40,3 +40,32 @@ https://github.com/sequelize/express-example
 https://www.npmjs.com/package/connect-session-sequelize
 
 - Each user needs a unique username for signing up and that's it
+
+```
+Boards
+------
+id
+name
+description
+createdAt
+updatedAt
+
+Posts
+-----
+id
+name
+content
+boardId
+createdByUser
+createdAt
+updatedAt
+
+Replies
+-------
+id
+postId
+content
+createdByUser
+createdAt
+updatedAt
+```
