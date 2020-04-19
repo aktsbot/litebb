@@ -38,7 +38,8 @@ const signupNewUser = async (req, res, next) => {
     const user = await User.create({
       username: req.xop.username,
       passwordHash,
-      email: req.xop.email
+      email: req.xop.email,
+      role: 'regular'
     })
 
     // set session

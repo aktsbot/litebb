@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
-    passwordHash: DataTypes.STRING
+    passwordHash: DataTypes.STRING,
+    role: DataTypes.ENUM('admin', 'regular')
   });
 
   // User.associate = function (models) {
