@@ -8,7 +8,7 @@ const app = require('../app');
 const debug = require('debug')('litebb:server');
 const http = require('http');
 const models = require('../models');
-const session = require('../session');
+
 
 /**
  * Get port from environment and store in Express.
@@ -16,10 +16,6 @@ const session = require('../session');
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-// setting session
-app.use(session);
-
 
 /**
  * Create HTTP server.

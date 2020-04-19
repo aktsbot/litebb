@@ -3,6 +3,14 @@ extends layout
 block content
   .card.center
     h1 #{title}
+
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category]
+          .staticFlash(class=`staticFlash--${category}`).center.m-v-lg.p-h-md.p-v-sm
+            | #{message}
+
     form(action='/login' method='post' autocomplete='off')
       .m-v-sm
         input(type='text' name='username' required='' maxlength='255' autofocus='' placeholder='Username').input-border.p-sm

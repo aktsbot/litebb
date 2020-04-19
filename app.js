@@ -3,16 +3,25 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const flash = require('connect-flash');
 
 const helpers = require('./helpers');
 const router = require('./routes/index');
+const session = require('./session');
 
 const app = express();
 
+// setting session
+app.use(session);
+
+app.use(flash());
 // thanks to wesbos
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
   res.locals.h = helpers;
+  res.locals.flashes = req.flash();
+  res.locals.user = req.session.user || null;
+  res.locals.currentPath = req.path;
   next();
 });
 
@@ -27,11 +36,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', router);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
 
 // error handler
 app.use(function (err, req, res, next) {

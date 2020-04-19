@@ -38,3 +38,5 @@ Commands:
 https://handyman.dulare.com/session-management-in-express/
 https://github.com/sequelize/express-example
 https://www.npmjs.com/package/connect-session-sequelize
+
+- Each user needs a unique username for signing up and that's it

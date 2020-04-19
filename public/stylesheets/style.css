@@ -209,6 +209,11 @@ details:hover {
   border: 1px solid #772953;
 }
 
+.staticFlash--error {
+  background: #e38682;
+  border: 1px solid #DA5E58;
+}
+
 .staticFlash {
   color: #fff;
   border-radius: 3px;
