@@ -94,11 +94,20 @@ const loginUser = async (req, res, next) => {
   }
 }
 
+const logoutUser = (req, res, next) => {
+  req.session.destroy((err) => {
+    //TODO: worry about the err
+
+    res.redirect('/')
+  })
+}
+
 module.exports = {
   loginForm,
   signUpForm,
   forgotPasswordForm,
 
   signupNewUser,
-  loginUser
+  loginUser,
+  logoutUser
 }

@@ -14,5 +14,6 @@ router.get('/forgot-password', userController.forgotPasswordForm);
 
 router.post('/signup', userValidator.signUpNewUser, userController.signupNewUser);
 router.post('/login', userValidator.loginUser, userController.loginUser);
+router.get('/logout', userController.logoutUser);
 
 module.exports = router;
