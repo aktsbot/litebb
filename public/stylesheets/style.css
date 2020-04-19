@@ -169,6 +169,10 @@ details:hover {
   margin-left: 10px;
 }
 
+.m-l-sm {
+  margin-left: 5px;
+}
+
 .flex__grow {
   flex-grow: 1;
 }

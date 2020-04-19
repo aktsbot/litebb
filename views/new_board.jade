@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .card
+    .flex.flex-center
+      h2.aubergine.m-v-md New Board
+    hr
+    
+    .m-t-md
+      form(action='/settings/new-board' method='post' autocomplete='off')
+        .m-v-sm
+          input(
+            type='text' name='board_name' 
+            required='' maxlength='255' 
+            autofocus='' placeholder='Name of the board'
+            ).input-border.p-sm.full-width.border-box
+        .m-v-sm
+          textarea(
+            type='password' name='password' 
+            required='' minlength='8' maxlength='512' rows="10"
+            autofocus='' placeholder='A tiny description of the board and what it\'ll be used for'
+            ).input-border.p-sm.full-width.border-box.textarea-v
+        .m-v-md
+          input(type='submit' value='Submit').button.button-primary
+          a(href="/settings").m-l-sm
+            input(type='button' value='Cancel').button.button-gray-inverted
+

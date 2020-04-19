@@ -23,7 +23,7 @@ router.get('/logout', userController.logoutUser);
 
 // settings
 router.get('/settings', authMiddleware.isSessionActive, settingsController.getSettingsPage);
-
+router.get('/settings/new-board', authMiddleware.isSessionActive, settingsController.getNewBoardPage)
 
 
 
