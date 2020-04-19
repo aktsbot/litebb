@@ -7,6 +7,7 @@ const userController = require('../controllers/user.controller')
 const userValidator = require('../validators/user.validator');
 
 const settingsController = require('../controllers/settings.controller');
+const settingsValidator = require('../validators/settings.validator');
 
 router.get('/', authMiddleware.addUserMeta, function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -33,6 +34,12 @@ router.get('/settings/new-board',
   authMiddleware.isAdmin,
   settingsController.getNewBoardPage)
 
+router.post('/settings/new-board',
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  authMiddleware.isAdmin,
+  settingsValidator.createNewBoard,
+  settingsController.createNewBoard)
 
 
 module.exports = router;

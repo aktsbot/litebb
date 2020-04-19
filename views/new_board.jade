@@ -6,19 +6,28 @@ block content
       h2.aubergine.m-v-md New Board
     hr
     
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category]
+          .staticFlash(class=`staticFlash--${category}`).center.m-v-lg.p-h-md.p-v-sm
+            | #{message}
+
     .m-t-md
       form(action='/settings/new-board' method='post' autocomplete='off')
         .m-v-sm
           input(
-            type='text' name='board_name' 
+            type='text' name='name' 
             required='' maxlength='255' 
             autofocus='' placeholder='Name of the board'
+            value=`${(body && body.name) ? body.name : ''}`
             ).input-border.p-sm.full-width.border-box
         .m-v-sm
           textarea(
-            type='password' name='password' 
+            name='description' 
             required='' minlength='8' maxlength='512' rows="10"
             autofocus='' placeholder='A tiny description of the board and what it\'ll be used for'
+            value=`${(body && body.description) ? body.description : ''}`
             ).input-border.p-sm.full-width.border-box.textarea-v
         .m-v-md
           input(type='submit' value='Submit').button.button-primary
