@@ -8,7 +8,7 @@ const userValidator = require('../validators/user.validator');
 
 const settingsController = require('../controllers/settings.controller');
 
-router.get('/', function (req, res, next) {
+router.get('/', authMiddleware.addUserMeta, function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -22,8 +22,16 @@ router.post('/login', userValidator.loginUser, userController.loginUser);
 router.get('/logout', userController.logoutUser);
 
 // settings
-router.get('/settings', authMiddleware.isSessionActive, settingsController.getSettingsPage);
-router.get('/settings/new-board', authMiddleware.isSessionActive, settingsController.getNewBoardPage)
+router.get('/settings',
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  authMiddleware.isAdmin,
+  settingsController.getSettingsPage);
+router.get('/settings/new-board',
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  authMiddleware.isAdmin,
+  settingsController.getNewBoardPage)
 
 
 
