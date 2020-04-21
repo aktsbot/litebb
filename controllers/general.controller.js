@@ -35,7 +35,28 @@ const getBoardIndexPage = async (req, res, next) => {
   }
 }
 
+const getNewPostPage = async (req, res, next) => {
+  try {
+
+    const board = await Board.findOne({
+      where: {
+        slug: req.params.board_slug
+      },
+      attributes: ['id', 'name']
+    });
+
+    // get paginated posts in board too
+
+    res.render('new_post', { title: 'New Post', board });
+    return;
+  } catch (e) {
+    console.log(e)
+    return res.send('b0rk')
+  }
+}
+
 module.exports = {
   getIndexPage,
-  getBoardIndexPage
+  getBoardIndexPage,
+  getNewPostPage
 }

@@ -5,7 +5,8 @@ block content
     .flex.flex-center
       h2.aubergine.m-v-md #{title}
       span.flex__grow 
-      a(href=`${currentPath + '/new-post'}`) 
-        span.button.button-primary New Post
+      if user
+        a(href=`${currentPath + '/new-post'}`) 
+          span.button.button-primary New Post
     hr
     ul.m-t-md
