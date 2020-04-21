@@ -1,7 +1,18 @@
 const { Board } = require('../models');
 
-const getSettingsPage = (req, res) => {
-  res.render('settings', { title: 'Settings' });
+const getSettingsPage = async (req, res, next) => {
+  try {
+
+    const boards = await Board.findAll({
+      attributes: ['id', 'name', 'slug']
+    });
+
+    res.render('settings', { title: 'Settings', boards });
+    return;
+  } catch (e) {
+    console.log(e)
+    return res.send('b0rk')
+  }
 }
 
 const getNewBoardPage = (req, res) => {

@@ -4,12 +4,15 @@ block content
   .card
     .flex.flex-center.m-v-md
       h2.aubergine Boards
-        span.font-small.gray 10
+        span.font-small.dark-gray &nbsp;#{boards.length}
       span.flex__grow
       a(href="/settings/new-board")
         span.button.button-primary New Board
     hr
     ul.m-t-md
+      each b in boards
+        li.p-b-sm.underline--hover
+          a(href=`/settings/edit-board?slug=${b.slug}`) #{b.name}
 
     
 
