@@ -1,5 +1,15 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .card
+    .flex
+      h2.aubergine.m-v-md Boards
+    hr
+    ul.m-t-md
+      each b in boards
+        li.p-b-sm
+          details
+            summary
+              a(href=`/b/${b.slug}`).underline--hover #{b.name}
+            p.m-l-md.p-sm.background-aubergine #{b.description}
+

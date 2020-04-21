@@ -9,9 +9,9 @@ const userValidator = require('../validators/user.validator');
 const settingsController = require('../controllers/settings.controller');
 const settingsValidator = require('../validators/settings.validator');
 
-router.get('/', authMiddleware.addUserMeta, function (req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const generalController = require('../controllers/general.controller');
+
+router.get('/', authMiddleware.addUserMeta, generalController.getIndexPage);
 
 // auth and user
 router.get('/login', userController.loginForm);
