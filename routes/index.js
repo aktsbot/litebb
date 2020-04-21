@@ -43,6 +43,6 @@ router.post('/settings/new-board',
 
 // boards
 router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBoardIndexPage)
-router.get('/b/:board_slug/new-post', authMiddleware.addUserMeta, generalController.getNewPostPage)
+router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, generalController.getNewPostPage)
 
 module.exports = router;
