@@ -41,5 +41,7 @@ router.post('/settings/new-board',
   settingsValidator.createNewBoard,
   settingsController.createNewBoard)
 
+// boards
+router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBoardIndexPage)
 
 module.exports = router;
