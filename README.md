@@ -55,6 +55,7 @@ Posts
 id
 name
 content
+slug
 boardId
 createdByUser
 createdAt
