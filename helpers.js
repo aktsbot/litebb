@@ -29,9 +29,18 @@ const displayDateTime = (d) => {
   return `${dateUTC_splits[1]} ${dateUTC_splits[2]} ${dateUTC_splits[3]}, ${hm} ${dateUTC_splits[5]}`;
 }
 
+const displayDate = (d) => {
+  const dateUTC = new Date(d).toUTCString();
+  const dateUTC_splits = dateUTC.split(' ');
+  // [ "Sat,", "25", "Apr", "2020", "06:52:01", "GMT" ]
+  return `${dateUTC_splits[1]} ${dateUTC_splits[2]} ${dateUTC_splits[3]}`;
+}
+
+
 module.exports = {
   siteName,
   makeRandomId,
   makeSlug,
   displayDateTime,
+  displayDate
 }

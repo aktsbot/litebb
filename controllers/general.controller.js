@@ -1,5 +1,5 @@
 const { Board, Post, User } = require('../models');
-const { makeSlug, displayDateTime } = require('../helpers');
+const { makeSlug, displayDateTime, displayDate } = require('../helpers');
 
 const getIndexPage = async (req, res, next) => {
   try {
@@ -10,14 +10,33 @@ const getIndexPage = async (req, res, next) => {
 
     // get latest 15 posts and links to them
     const posts = await Post.findAll({
-      attributes: ['id', 'slug', 'name'],
+      attributes: ['id', 'slug', 'name', 'createdAt'],
       order: [
         ['createdAt', 'DESC']
       ],
-      limit: 15
+      limit: 15,
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username']
+        },
+        {
+          model: Board,
+          as: 'board',
+          attributes: ['id', 'name']
+        }
+      ]
     })
 
-    res.render('index', { title: 'Home', boards, posts });
+    const results = JSON.parse(JSON.stringify(posts));
+    const datedPosts = results.map(p => ({
+      ...p,
+      created_date_formatted: displayDate(p.createdAt)
+    }))
+
+    console.log(datedPosts)
+    res.render('index', { title: 'Home', boards, posts: datedPosts });
     return;
   } catch (e) {
     console.log(e)

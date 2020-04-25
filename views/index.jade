@@ -10,11 +10,11 @@ block content
         li.flex.flex-center.p-b-sm
           span.flex__grow
             a(href=`/p/${p.slug}`).bold.underline--hover #{p.name}&nbsp;
-            span.dark-gray.bold [Category]
+            span.dark-gray.bold [#{p.board.name}]
           .ws-nowrap
-            @akts&nbsp;
+            @#{p.author.username} &nbsp;
             span.gray //&nbsp;
-            | 12 Feb 2020
+            | #{p.created_date_formatted}
 
   .card
     .flex
