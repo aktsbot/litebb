@@ -46,4 +46,7 @@ router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBo
 router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, generalController.getNewPostPage)
 router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, generalController.createPost)
 
+// posts
+router.get('/p/:post_slug', authMiddleware.addUserMeta, generalController.getPostPage);
+
 module.exports = router;

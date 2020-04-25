@@ -11,5 +11,12 @@ module.exports = (sequelize, DataTypes) => {
   //   models.User.hasMany(models.Task);
   // };
 
+  User.associate = function (models) {
+    models.Post.belongsTo(models.User, {
+      as: 'author',
+      foreignKey: 'createdByUser'
+    });
+  };
+
   return User;
 };

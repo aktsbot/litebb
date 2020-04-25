@@ -1,4 +1,4 @@
-const { Board, Post } = require('../models');
+const { Board, Post, User } = require('../models');
 const { makeSlug } = require('../helpers');
 
 const getIndexPage = async (req, res, next) => {
@@ -83,9 +83,42 @@ const createPost = async (req, res, next) => {
   }
 }
 
+const getPostPage = async (req, res, next) => {
+  try {
+
+    const post = await Post.findOne({
+      where: {
+        slug: req.params.post_slug
+      },
+      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser'],
+      include: {
+        model: User,
+        as: 'author',
+        attributes: ['id', 'name']
+      },
+      include: {
+        model: Board,
+        as: 'board',
+        attributes: ['id', 'name', 'slug']
+      }
+    });
+
+    // get paginated replies in board too
+    console.log(post, '<<- post')
+    res.send('ok')
+    // res.render('board', { title: board.name });
+    return;
+
+  } catch (e) {
+    console.log(e)
+    return res.send('b0rk')
+  }
+}
+
 module.exports = {
   getIndexPage,
   getBoardIndexPage,
   getNewPostPage,
-  createPost
+  createPost,
+  getPostPage
 }

@@ -6,9 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     slug: DataTypes.STRING
   });
 
-  // Board.associate = function (models) {
-  //   models.Board.hasMany(models.Post);
-  // };
+  Board.associate = function (models) {
+    models.Post.belongsTo(models.Board, {
+      as: 'board',
+      foreignKey: 'boardId'
+    });
+  };
 
   return Board;
 };
