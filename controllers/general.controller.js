@@ -1,5 +1,5 @@
 const { Board, Post, User } = require('../models');
-const { makeSlug } = require('../helpers');
+const { makeSlug, displayDateTime } = require('../helpers');
 
 const getIndexPage = async (req, res, next) => {
   try {
@@ -90,23 +90,26 @@ const getPostPage = async (req, res, next) => {
       where: {
         slug: req.params.post_slug
       },
-      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser'],
-      include: {
-        model: User,
-        as: 'author',
-        attributes: ['id', 'name']
-      },
-      include: {
-        model: Board,
-        as: 'board',
-        attributes: ['id', 'name', 'slug']
-      }
+      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt'],
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username']
+        },
+        {
+          model: Board,
+          as: 'board',
+          attributes: ['id', 'name', 'slug']
+        }
+      ]
     });
 
+    post.createdAtFormatted = displayDateTime(post.createdAt)
+
     // get paginated replies in board too
-    console.log(post, '<<- post')
-    res.send('ok')
-    // res.render('board', { title: board.name });
+    console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
+    res.render('post', { post });
     return;
 
   } catch (e) {

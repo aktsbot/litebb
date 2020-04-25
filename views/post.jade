@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .card
+    .flex.flex-center
+      h2.aubergine.m-v-md #{post.name}
+      span.p-l-sm
+        span.gray by&nbsp; 
+        span @#{post.author.username}&nbsp;
+        span.gray on&nbsp;
+        span #{post.createdAtFormatted}
+      span.flex__grow 
+      if user
+        a(href=`${currentPath + '/new-reply'}`) 
+          span.button.button-primary New reply
+    hr
+    
+    .m-t-md.m-b-xl
+      .p-sm.ws-prewrap #{post.content}

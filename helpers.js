@@ -18,8 +18,20 @@ const makeSlug = (name) => {
   return `${urlName}-${id}`;
 }
 
+const displayDateTime = (d) => {
+  const dateUTC = new Date(d).toUTCString();
+  const dateUTC_splits = dateUTC.split(' ');
+  // [ "Sat,", "25", "Apr", "2020", "06:52:01", "GMT" ]
+  const hm_splits = dateUTC_splits[4].split(':');
+  hm_splits.pop() // 01 gone
+  const hm = hm_splits.join(':');
+
+  return `${dateUTC_splits[1]} ${dateUTC_splits[2]} ${dateUTC_splits[3]}, ${hm} ${dateUTC_splits[5]}`;
+}
+
 module.exports = {
   siteName,
   makeRandomId,
-  makeSlug
+  makeSlug,
+  displayDateTime,
 }
