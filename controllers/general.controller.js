@@ -8,7 +8,16 @@ const getIndexPage = async (req, res, next) => {
       attributes: ['id', 'name', 'slug', 'description']
     });
 
-    res.render('index', { title: 'Home', boards });
+    // get latest 15 posts and links to them
+    const posts = await Post.findAll({
+      attributes: ['id', 'slug', 'name'],
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      limit: 15
+    })
+
+    res.render('index', { title: 'Home', boards, posts });
     return;
   } catch (e) {
     console.log(e)
