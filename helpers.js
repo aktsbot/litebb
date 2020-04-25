@@ -13,7 +13,7 @@ const makeRandomId = (length) => {
 
 const makeSlug = (name) => {
   const id = makeRandomId(5).toLowerCase();
-  const urlName = name.toLowerCase().replace(/ /g, '-');
+  const urlName = name.replace(/\W+/g, " ").toLowerCase().replace(/ /g, '-');
 
   return `${urlName}-${id}`;
 }
