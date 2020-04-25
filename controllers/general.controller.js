@@ -55,8 +55,42 @@ const getBoardIndexPage = async (req, res, next) => {
     });
 
     // get paginated posts in board too
+    // wesbos :)
+    const page = req.params.page || 1;
+    const limit = 25;
+    const skip = (page * limit) - limit;
 
-    res.render('board', { title: board.name });
+    const posts = await Post.findAll({
+      where: {
+        boardId: board.id
+      },
+      attributes: ['id', 'slug', 'name', 'createdAt'],
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      offset: skip,
+      limit: limit,
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: ['id', 'username']
+        },
+        {
+          model: Board,
+          as: 'board',
+          attributes: ['id', 'name']
+        }
+      ]
+    })
+
+    const results = JSON.parse(JSON.stringify(posts));
+    const datedPosts = results.map(p => ({
+      ...p,
+      created_date_formatted: displayDate(p.createdAt)
+    }))
+
+    res.render('board', { title: board.name, posts: datedPosts });
     return;
   } catch (e) {
     console.log(e)
