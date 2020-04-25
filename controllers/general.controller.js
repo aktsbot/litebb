@@ -108,8 +108,8 @@ const getPostPage = async (req, res, next) => {
     post.createdAtFormatted = displayDateTime(post.createdAt)
 
     // get paginated replies in board too
-    console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
-    res.render('post', { post });
+    // console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
+    res.render('post', { title: post.name, post });
     return;
 
   } catch (e) {
