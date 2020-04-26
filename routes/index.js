@@ -10,6 +10,7 @@ const settingsController = require('../controllers/settings.controller');
 const settingsValidator = require('../validators/settings.validator');
 
 const generalController = require('../controllers/general.controller');
+const replyController = require('../controllers/reply.controller');
 
 router.get('/', authMiddleware.addUserMeta, generalController.getIndexPage);
 
@@ -48,5 +49,8 @@ router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, generalCont
 
 // posts
 router.get('/p/:post_slug', authMiddleware.addUserMeta, generalController.getPostPage);
+
+// replies
+router.get('/p/:post_slug/new-reply', authMiddleware.isSessionActive, replyController.getNewReplyPage)
 
 module.exports = router;

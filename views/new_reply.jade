@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  .card
+    .flex.flex-center
+      h2.aubergine.m-v-md #{title}
+
+      span.flex__grow
+      h3
+        small.gray in 
+        | #{post.board.name}
+    hr
+    
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category]
+          .staticFlash(class=`staticFlash--${category}`).center.m-v-lg.p-h-md.p-v-sm
+            | #{message}
+
+    .m-t-md
+      form(action=`${'/p/' + post.id + '/new-reply'}` method='post' autocomplete='off')
+        .m-v-sm
+          textarea(
+            name='content' 
+            required='' minlength='8' rows="15"
+            autofocus='' placeholder='Write away!'
+            value=`${(body && body.content) ? body.content : ''}`
+            ).input-border.p-sm.full-width.border-box.textarea-v.m-v-md
+        .m-v-md
+          input(type='submit' value='Submit').button.button-primary
+          a(href='javascript:history.back()').m-l-sm
+            input(type='button' value='Cancel').button.button-gray-inverted
+    
+    hr
+    .m-t-sm
+      .m-t-md.p-l-sm
+        span.gray.bold In reply to:
+      
+      .flex.flex-center
+        h3.aubergine.p-sm #{post.name}
+        span.flex__grow
+        p
+          small.bold.gray by&nbsp;
+          | @#{post.author.username}&nbsp;
+          small.bold.gray on&nbsp;
+          | #{post.createdAtFormatted}
+      
+      .ws-prewrap.p-sm.user-content #{post.content}
+
