@@ -1,4 +1,4 @@
-const { Board, Post, User } = require('../models');
+const { Board, Post, User, Reply } = require('../models');
 const { makeSlug, displayDateTime, displayDate } = require('../helpers');
 
 const getIndexPage = async (req, res, next) => {
@@ -35,7 +35,7 @@ const getIndexPage = async (req, res, next) => {
       created_date_formatted: displayDate(p.createdAt)
     }))
 
-    console.log(datedPosts)
+    // console.log(datedPosts)
     res.render('index', { title: 'Home', boards, posts: datedPosts });
     return;
   } catch (e) {
@@ -171,7 +171,36 @@ const getPostPage = async (req, res, next) => {
 
     // get paginated replies in board too
     // console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
-    res.render('post', { title: post.name, post });
+    const page = req.query.page || 1;
+    const limit = 10;
+    const skip = (page * limit) - limit;
+
+    const replies = await Reply.findAll({
+      where: {
+        postId: post.id
+      },
+      attributes: ['id', 'content', 'createdAt', 'createdByUser'],
+      offset: skip,
+      limit: limit,
+      include: [
+        {
+          model: User,
+          as: 'replied_by',
+          attributes: ['id', 'username']
+        },
+      ]
+    });
+
+    const formattedReplies = replies.map(r => {
+      const replyObject = JSON.parse(JSON.stringify(r));
+      const newReply = { ...replyObject };
+      newReply.createdAtFormatted = displayDateTime(newReply.createdAt);
+      return newReply;
+    })
+    console.log(formattedReplies)
+    // console.log(JSON.stringify(replies), '<<- replies')
+
+    res.render('post', { title: post.name, post, replies: formattedReplies });
     return;
 
   } catch (e) {

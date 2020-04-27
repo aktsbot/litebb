@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       as: 'author',
       foreignKey: 'createdByUser'
     });
+
+    models.Reply.belongsTo(models.User, {
+      as: 'replied_by',
+      foreignKey: 'createdByUser'
+    });
   };
 
   return User;

@@ -17,3 +17,14 @@ block content
     
     .m-t-md.m-b-xl
       .p-sm.ws-prewrap #{post.content}
+
+      each reply, index in replies
+        .m-t-md.p-sm.background-aubergine
+          .flex.flex-center.border-bottom-sm.p-sm
+            span.dark-gray ##{index + 1}
+            span.flex__grow
+            span
+              span @#{reply.replied_by.username}&nbsp;
+              span.dark-gray.font-small on&nbsp;
+              span.font-small #{reply.createdAtFormatted}
+          .p-sm.ws-prewrap.user-content #{reply.content}
