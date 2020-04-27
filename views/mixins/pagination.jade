@@ -1,0 +1,11 @@
+mixin pagination(page, pages, count)
+  span
+    if page > 1
+      a(href=`?page=${page - 1}`).aubergine.underline--hover prev
+      |&nbsp;
+    span
+      | #{page}/#{pages} 
+      span.gray | #{count}&nbsp;
+    span
+      if page < pages
+        a(href=`?page=${parseInt(page) + 1}`).aubergine.underline--hover next

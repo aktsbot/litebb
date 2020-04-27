@@ -84,13 +84,16 @@ const getBoardIndexPage = async (req, res, next) => {
       ]
     })
 
+    const count = 55;
+    const pages = Math.ceil(count / limit);
+
     const results = JSON.parse(JSON.stringify(posts));
     const datedPosts = results.map(p => ({
       ...p,
       created_date_formatted: displayDate(p.createdAt)
     }))
 
-    res.render('board', { title: board.name, posts: datedPosts });
+    res.render('board', { title: board.name, posts: datedPosts, page, pages, count });
     return;
   } catch (e) {
     console.log(e)

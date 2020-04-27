@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/pagination
+
 block content
   .card
     .flex.flex-center
@@ -21,3 +23,5 @@ block content
             | 30&nbsp;
             span.gray //&nbsp;
             | #{p.created_date_formatted}
+    
+    +pagination(page, pages, count)
