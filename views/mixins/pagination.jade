@@ -1,11 +1,12 @@
 mixin pagination(page, pages, count)
-  span
+  span.flex
     if page > 1
       a(href=`?page=${page - 1}`).aubergine.underline--hover prev
       |&nbsp;
     span
-      | #{page}/#{pages} 
-      span.gray | #{count}&nbsp;
+      | #{page} of #{pages}&nbsp;
     span
       if page < pages
         a(href=`?page=${parseInt(page) + 1}`).aubergine.underline--hover next
+    span.flex__grow
+    span.gray #{count} results&nbsp;
