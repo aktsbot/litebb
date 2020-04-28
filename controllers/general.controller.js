@@ -217,7 +217,7 @@ const getPostPage = async (req, res, next) => {
       newReply.createdAtFormatted = displayDateTime(newReply.createdAt);
       return newReply;
     })
-    console.log(formattedReplies)
+    // console.log(formattedReplies)
     // console.log(JSON.stringify(replies), '<<- replies')
 
     res.render('post', { title: post.name, post, replies: formattedReplies, page, pages, count });
