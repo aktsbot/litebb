@@ -185,7 +185,7 @@ const getPostPage = async (req, res, next) => {
     const limit = 10;
     const skip = (page * limit) - limit;
 
-    const replies = await Reply.findAll({
+    const repliesQuery = Reply.findAll({
       where: {
         postId: post.id
       },
@@ -201,6 +201,16 @@ const getPostPage = async (req, res, next) => {
       ]
     });
 
+    const countQuery = Reply.count({
+      where: {
+        postId: post.id
+      }
+    })
+
+    const [replies, count] = await Promise.all([repliesQuery, countQuery])
+
+    const pages = Math.ceil(count / limit); // no replies would make it 0 
+
     const formattedReplies = replies.map(r => {
       const replyObject = JSON.parse(JSON.stringify(r));
       const newReply = { ...replyObject };
@@ -210,7 +220,7 @@ const getPostPage = async (req, res, next) => {
     console.log(formattedReplies)
     // console.log(JSON.stringify(replies), '<<- replies')
 
-    res.render('post', { title: post.name, post, replies: formattedReplies });
+    res.render('post', { title: post.name, post, replies: formattedReplies, page, pages, count });
     return;
 
   } catch (e) {

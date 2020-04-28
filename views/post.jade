@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/pagination
+
 block content
   .card
     .flex.flex-center
@@ -28,3 +30,6 @@ block content
               span.dark-gray.font-small on&nbsp;
               span.font-small #{reply.createdAtFormatted}
           .p-sm.ws-prewrap.user-content #{reply.content}
+
+      .m-t-md
+        +pagination(page, pages, count, 'replies')

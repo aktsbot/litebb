@@ -1,12 +1,14 @@
-mixin pagination(page, pages, count)
+mixin pagination(page, pages, count, type)
   span.flex
-    if page > 1
-      a(href=`?page=${page - 1}`).aubergine.underline--hover prev
-      |&nbsp;
-    span
-      | #{page} of #{pages}&nbsp;
-    span
-      if page < pages
-        a(href=`?page=${parseInt(page) + 1}`).aubergine.underline--hover next
+    if pages > 0
+      if page > 1
+        a(href=`?page=${page - 1}`).aubergine.underline--hover prev
+        |&nbsp;
+      span
+        | #{page} of #{pages}&nbsp;
+      span
+        if page < pages
+          a(href=`?page=${parseInt(page) + 1}`).aubergine.underline--hover next
+      
     span.flex__grow
-    span.gray #{count} results&nbsp;
+    span.gray #{count} #{type}&nbsp;
