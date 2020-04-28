@@ -60,7 +60,7 @@ const getBoardIndexPage = async (req, res, next) => {
     const limit = 25;
     const skip = (page * limit) - limit;
 
-    const posts = await Post.findAll({
+    const postsQuery = Post.findAll({
       where: {
         boardId: board.id
       },
@@ -84,7 +84,14 @@ const getBoardIndexPage = async (req, res, next) => {
       ]
     })
 
-    const count = 55;
+    const countQuery = Post.count({
+      where: {
+        boardId: board.id
+      },
+    })
+
+    const [posts, count] = await Promise.all([postsQuery, countQuery])
+
     const pages = Math.ceil(count / limit);
 
     const results = JSON.parse(JSON.stringify(posts));
