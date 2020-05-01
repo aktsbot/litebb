@@ -38,6 +38,7 @@ $ npm i
 $ ./node_modules/.bin/sequelize db:migrate  
 $ cp example.env .env
 $ # change the values in .env
+$ mkdir dbs
 $ npm start 
 ```
 
