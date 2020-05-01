@@ -15,7 +15,8 @@ discussions, you can change it just like that, in the config.
 SQLite was chosen because its fits my
 needs perfectly. 
 
-P.S the name `liteBB` comes from SQ`Lite`.
+P.S the name `liteBB` comes from SQ`Lite` and oh! there's a live instance running
+on https://litebb.aktsbot.in/
 
 ## Warning:
 
