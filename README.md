@@ -34,6 +34,7 @@ methods. If you have a suggestion, holla over at the Issues tab.
 $ git clone --depth=1 https://github.com/aktsbot/litebb litebb
 $ cd litebb
 $ npm i
+$ ./node_modules/.bin/sequelize db:migrate  
 $ cp example.env .env
 $ # change the values in .env
 $ npm start 
@@ -121,6 +122,7 @@ restart the server.
       sequelize model:generate                    Generates a model and its migration  [aliases: model:create]
       sequelize seed:generate                     Generates a new seed file            [aliases: seed:create]
     ```
+5.  The app and session databases will be generated in `./dbs`.
 
 ## Models/Schema
 
