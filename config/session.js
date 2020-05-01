@@ -1,9 +1,9 @@
-{
+module.exports = {
   "development": {
     "database": "null",
     "username": "null",
     "password": "null",
-    "sessionSecret" : "mySessionSecret",
+    "sessionSecret": process.env.SESSION_SECRET,
     "dialect": "sqlite",
     "storage": "./dbs/litebb.session.db.development.sqlite"
   },
@@ -11,7 +11,7 @@
     "database": "null",
     "username": "null",
     "password": "null",
-    "sessionSecret" : "mySessionSecret",
+    "sessionSecret": process.env.SESSION_SECRET,
     "dialect": "sqlite",
     "storage": "./dbs/litebb.session.db.test.sqlite"
   },
@@ -19,7 +19,7 @@
     "database": "null",
     "username": "null",
     "password": "null",
-    "sessionSecret" : "mySessionSecret",
+    "sessionSecret": process.env.SESSION_SECRET,
     "dialect": "sqlite",
     "storage": "./dbs/litebb.session.db.production.sqlite"
   }

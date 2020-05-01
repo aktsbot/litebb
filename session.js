@@ -2,7 +2,7 @@ const session = require('express-session');
 const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const env = process.env.NODE_ENV || 'development';
-const config = require('./config/session.json')[env];
+const config = require('./config/session.js')[env];
 
 //
 // Session configuration

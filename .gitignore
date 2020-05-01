@@ -1,3 +1,4 @@
 dbs/*
 node_modules/
+.env
 

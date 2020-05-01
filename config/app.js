@@ -1,4 +1,4 @@
-{
+module.exports = {
   "development": {
     "dialect": "sqlite",
     "storage": "./dbs/litebb.app.db.development.sqlite"
@@ -11,4 +11,4 @@
     "dialect": "sqlite",
     "storage": "./dbs/litebb.app.db.production.sqlite"
   }
-}
+};
