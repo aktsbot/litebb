@@ -51,9 +51,9 @@ const signupNewUser = async (req, res, next) => {
     res.redirect('/');
     return;
   } catch (e) {
-    // next(e)
+    next(e)
     console.log(e)
-    return res.send('b0rk')
+    return;
   }
 }
 
@@ -89,16 +89,18 @@ const loginUser = async (req, res, next) => {
     return;
 
   } catch (e) {
-    // next(e)
+    next(e)
     console.log(e)
-    return res.send('b0rk')
+    return;
   }
 }
 
 const logoutUser = (req, res, next) => {
   req.session.destroy((err) => {
-    //TODO: worry about the err
-
+    if (err) {
+      next(err)
+      return;
+    }
     res.redirect('/')
   })
 }
