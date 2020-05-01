@@ -12,7 +12,7 @@ block content
             a(href=`/p/${p.slug}`).bold.underline--hover #{p.name}&nbsp;
             span.dark-gray.bold [#{p.board.name}]
           .ws-nowrap
-            @#{p.author.username} &nbsp;
+            | @#{p.author.username} &nbsp;
             span.gray //&nbsp;
             | #{p.created_date_formatted}
 
