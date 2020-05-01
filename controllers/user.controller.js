@@ -39,7 +39,7 @@ const signupNewUser = async (req, res, next) => {
       username: req.xop.username,
       passwordHash,
       email: req.xop.email,
-      role: 'regular'
+      role: process.env.FIRST_RUN ? 'admin' : 'regular'
     })
 
     // set session
