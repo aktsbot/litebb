@@ -18,5 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
+  Reply.associate = function (models) {
+    models.Post.hasMany(models.Reply, {
+      sourceKey: 'id'
+    });
+  };
+
   return Reply;
 };

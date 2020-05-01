@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 const { Board, Post, User, Reply } = require('../models');
 const { displayDate } = require('../helpers');
 
@@ -61,11 +63,17 @@ const getBoardIndexPage = async (req, res, next) => {
     const limit = 25;
     const skip = (page * limit) - limit;
 
+    // https://stackoverflow.com/questions/37817808/counting-associated-entries-with-sequelize
     const postsQuery = Post.findAll({
+      subQuery: false,
       where: {
         boardId: board.id
       },
-      attributes: ['id', 'slug', 'name', 'createdAt'],
+      attributes: [
+        'id', 'slug',
+        'name', 'createdAt',
+        [Sequelize.fn("COUNT", Sequelize.col("Replies.postId")), "replyCount"]
+      ],
       order: [
         ['createdAt', 'DESC']
       ],
@@ -81,8 +89,13 @@ const getBoardIndexPage = async (req, res, next) => {
           model: Board,
           as: 'board',
           attributes: ['id', 'name']
+        },
+        {
+          model: Reply,
+          attributes: []
         }
-      ]
+      ],
+      group: ['Post.id']
     })
 
     const countQuery = Post.count({
@@ -93,6 +106,7 @@ const getBoardIndexPage = async (req, res, next) => {
 
     const [posts, count] = await Promise.all([postsQuery, countQuery])
 
+    // console.log(JSON.stringify(posts))
     const pages = Math.ceil(count / limit);
 
     const results = JSON.parse(JSON.stringify(posts));
