@@ -13,7 +13,7 @@
     "password": "null",
     "sessionSecret" : "mySessionSecret",
     "dialect": "sqlite",
-    "storage": "./dbs/litebb.session.db.development.sqlite"
+    "storage": "./dbs/litebb.session.db.test.sqlite"
   },
   "production": {
     "database": "null",
@@ -21,6 +21,6 @@
     "password": "null",
     "sessionSecret" : "mySessionSecret",
     "dialect": "sqlite",
-    "storage": "./dbs/litebb.session.db.development.sqlite"
+    "storage": "./dbs/litebb.session.db.production.sqlite"
   }
 }
