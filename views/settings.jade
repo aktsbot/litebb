@@ -12,7 +12,8 @@ block content
     ul.m-t-md
       each b in boards
         li.p-b-sm.underline--hover
-          a(href=`/settings/edit-board?slug=${b.slug}`) #{b.name}
+          //- a(href=`/settings/edit-board?slug=${b.slug}`) #{b.name}
+          | #{b.name}
 
     
 
