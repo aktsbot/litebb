@@ -14,6 +14,8 @@ const generalController = require('../controllers/general.controller');
 const replyController = require('../controllers/reply.controller');
 const replyValidator = require('../validators/reply.validator');
 
+const postController = require('../controllers/post.controller');
+
 router.get('/', authMiddleware.addUserMeta, generalController.getIndexPage);
 
 // auth and user
@@ -46,11 +48,11 @@ router.post('/settings/new-board',
 
 // boards
 router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBoardIndexPage)
-router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, generalController.getNewPostPage)
-router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, generalController.createPost)
 
 // posts
-router.get('/p/:post_slug', authMiddleware.addUserMeta, generalController.getPostPage);
+router.get('/p/:post_slug', authMiddleware.addUserMeta, postController.getPostPage);
+router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, postController.getNewPostPage)
+router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, postController.createPost)
 
 // replies
 router.get('/p/:post_slug/new-reply', authMiddleware.isSessionActive, replyController.getNewReplyPage);
