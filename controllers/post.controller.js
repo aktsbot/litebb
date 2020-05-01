@@ -11,13 +11,21 @@ const getNewPostPage = async (req, res, next) => {
       attributes: ['id', 'name']
     });
 
-    // get paginated posts in board too
+    if (!board) {
+      const err = {
+        message: 'Board not found!',
+        status: 404
+      }
+      next(err);
+      return;
+    }
 
     res.render('new_post', { title: 'New Post', board });
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e);
+    return;
   }
 }
 
@@ -44,10 +52,10 @@ const createPost = async (req, res, next) => {
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e);
+    return
   }
 }
-
 
 const getPostPage = async (req, res, next) => {
   try {
@@ -70,6 +78,15 @@ const getPostPage = async (req, res, next) => {
         }
       ]
     });
+
+    if (!post) {
+      const err = {
+        message: 'Post not found!',
+        status: 404
+      }
+      next(err);
+      return;
+    }
 
     post.createdAtFormatted = displayDateTime(post.createdAt)
 
@@ -119,7 +136,8 @@ const getPostPage = async (req, res, next) => {
 
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e)
+    return;
   }
 }
 
