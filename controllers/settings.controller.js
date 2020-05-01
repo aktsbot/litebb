@@ -11,7 +11,8 @@ const getSettingsPage = async (req, res, next) => {
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e)
+    return;
   }
 }
 
@@ -45,7 +46,8 @@ const createNewBoard = async (req, res, next) => {
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e);
+    return;
   }
 }
 

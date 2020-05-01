@@ -23,13 +23,23 @@ const getNewReplyPage = async (req, res, next) => {
       ]
     })
 
+    if (!post) {
+      const err = {
+        message: 'Post to reply for, is not found!',
+        status: 404
+      }
+      next(err);
+      return;
+    }
+
     post.createdAtFormatted = displayDateTime(post.createdAt);
 
     res.render('new_reply', { title: 'New Reply', post });
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e)
+    return;
   }
 }
 
@@ -43,6 +53,15 @@ const createNewReply = async (req, res, next) => {
       attributes: ['id', 'slug']
     })
 
+    if (!post) {
+      const err = {
+        message: 'Post to reply for, is not found!',
+        status: 404
+      }
+      next(err);
+      return;
+    }
+
     const url = `/p/${post.slug}`;
 
     const newReply = await Reply.create({
@@ -51,14 +70,14 @@ const createNewReply = async (req, res, next) => {
       createdByUser: req.session.user.id
     });
 
-    // check if creating reply failed
+    //TODO: check if creating reply failed
 
     res.redirect(url);
     return;
-
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e)
+    return;
   }
 }
 

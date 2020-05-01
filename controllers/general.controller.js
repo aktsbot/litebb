@@ -39,8 +39,9 @@ const getIndexPage = async (req, res, next) => {
     res.render('index', { title: 'Home', boards, posts: datedPosts });
     return;
   } catch (e) {
-    console.log(e)
-    return res.send('b0rk')
+    console.log(e);
+    next(e);
+    return;
   }
 }
 
@@ -104,7 +105,8 @@ const getBoardIndexPage = async (req, res, next) => {
     return;
   } catch (e) {
     console.log(e)
-    return res.send('b0rk')
+    next(e);
+    return;
   }
 }
 
