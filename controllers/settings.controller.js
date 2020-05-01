@@ -22,7 +22,7 @@ const getNewBoardPage = (req, res) => {
 
 const createNewBoard = async (req, res, next) => {
   try {
-    const slug = req.xop.name.toLowerCase();
+    const slug = req.xop.name.trim().toLowerCase().replace(/ /g, '-');
 
     // check if name is already present
     const existingBoard = await Board.findAll({
