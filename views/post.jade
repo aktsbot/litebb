@@ -23,7 +23,7 @@ block content
       each reply, index in replies
         .m-t-md.p-sm.background-aubergine
           .flex.flex-center.border-bottom-sm.p-sm
-            span.dark-gray ##{index + 1}
+            span.dark-gray ##{index + 1 + skip}
             span.flex__grow
             span
               span @#{reply.replied_by.username}&nbsp;

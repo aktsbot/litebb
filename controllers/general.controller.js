@@ -220,7 +220,7 @@ const getPostPage = async (req, res, next) => {
     // console.log(formattedReplies)
     // console.log(JSON.stringify(replies), '<<- replies')
 
-    res.render('post', { title: post.name, post, replies: formattedReplies, page, pages, count });
+    res.render('post', { title: post.name, post, replies: formattedReplies, page, pages, count, skip });
     return;
 
   } catch (e) {
