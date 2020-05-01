@@ -1,3 +1,11 @@
+const notFound = (req, res, next) => {
+  const err = {
+    status: 404,
+    message: 'Not found'
+  }
+  next(err);
+};
+
 const errorHandler = (err, req, res, next) => {
 
   // set locals, only providing error in development
@@ -11,5 +19,6 @@ const errorHandler = (err, req, res, next) => {
 }
 
 module.exports = {
-  errorHandler
+  errorHandler,
+  notFound
 }
