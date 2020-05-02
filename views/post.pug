@@ -21,6 +21,7 @@ block content
       .p-sm.ws-prewrap #{post.content}
       if (user && user.id == post.author.id)
         .flex
+          span.gray.font-small Last edited: #{post.updatedAtFormatted}
           span.flex__grow
           a(href=`${currentPath + '/edit'}`).aubergine.underline--hover Edit
 

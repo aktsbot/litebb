@@ -64,7 +64,7 @@ const getPostPage = async (req, res, next) => {
       where: {
         slug: req.params.post_slug
       },
-      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt'],
+      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
       include: [
         {
           model: User,
@@ -89,6 +89,7 @@ const getPostPage = async (req, res, next) => {
     }
 
     post.createdAtFormatted = displayDateTime(post.createdAt)
+    post.updatedAtFormatted = displayDateTime(post.updatedAt)
 
     // get paginated replies in board too
     // console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
