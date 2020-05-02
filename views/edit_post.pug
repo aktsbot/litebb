@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  .card
+    .flex.flex-center
+      h2.aubergine.m-v-md #{title}
+
+    hr
+    
+    if locals.flashes
+      - const categories = Object.keys(locals.flashes)
+      each category in categories
+        each message in flashes[category]
+          .staticFlash(class=`staticFlash--${category}`).center.m-v-lg.p-h-md.p-v-sm
+            | #{message}
+
+    .m-t-md
+      form(action=`${'/p/' + post.id + '/update'}` method='POST' autocomplete='off')
+        if (post.name)
+          .m-v-sm
+            input(
+              type='text' name='name' disabled=""
+              required='' maxlength='255' 
+              autofocus='' placeholder='Title of the post'
+              value=`${post.name}`
+              ).input-border.p-sm.full-width.border-box.m-v-md
+        .m-v-sm
+          textarea(
+            name='content' 
+            required='' minlength='8' rows="25"
+            autofocus='' placeholder='Write away!'
+            ).input-border.p-sm.full-width.border-box.textarea-v.m-v-md #{post.content}
+        .m-v-md
+          input(type='submit' value='Update').button.button-primary
+          a(href='javascript:history.back()').m-l-sm
+            input(type='button' value='Cancel').button.button-gray-inverted
+

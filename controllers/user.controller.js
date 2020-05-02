@@ -7,14 +7,26 @@ const bcryptCompareP = promisify(bcrypt.compare);
 const { User } = require('../models');
 
 const loginForm = (req, res) => {
+  if (req.session && req.session.user) {
+    res.redirect('/')
+    return;
+  }
   res.render('login', { title: 'Log In' });
 }
 
 const signUpForm = (req, res) => {
+  if (req.session && req.session.user) {
+    res.redirect('/')
+    return;
+  }
   res.render('signup', { title: 'Sign Up' });
 }
 
 const forgotPasswordForm = (req, res) => {
+  if (req.session && req.session.user) {
+    res.redirect('/')
+    return;
+  }
   res.render('forgot_password', { title: 'Forgot Password' });
 }
 

@@ -52,8 +52,14 @@ router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBo
 
 // posts
 router.get('/p/:post_slug', authMiddleware.addUserMeta, postController.getPostPage);
+router.get('/p/:post_slug/edit', authMiddleware.addUserMeta, postController.getPostEditPage);
 router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, postController.getNewPostPage)
-router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, postValidator.createPost, postController.createPost)
+router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, postValidator.createPost, postController.createPost);
+router.post('/p/:post_id/update',
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  postValidator.updatePost,
+  postController.updatePost);// html forms only does post for submission
 
 // replies
 router.get('/p/:post_slug/new-reply', authMiddleware.isSessionActive, replyController.getNewReplyPage);

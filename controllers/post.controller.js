@@ -64,7 +64,7 @@ const getPostPage = async (req, res, next) => {
       where: {
         slug: req.params.post_slug
       },
-      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt'],
+      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
       include: [
         {
           model: User,
@@ -89,6 +89,7 @@ const getPostPage = async (req, res, next) => {
     }
 
     post.createdAtFormatted = displayDateTime(post.createdAt)
+    post.updatedAtFormatted = displayDateTime(post.updatedAt)
 
     // get paginated replies in board too
     // console.log(JSON.stringify(post), displayDateTime(post.createdAt), '<<- post')
@@ -141,8 +142,66 @@ const getPostPage = async (req, res, next) => {
   }
 }
 
+const getPostEditPage = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: {
+        slug: req.params.post_slug
+      },
+      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt'],
+    });
+
+    if (!post) {
+      res.redirect('/');
+      return;
+    }
+
+    if (post.createdByUser !== req.session.user.id) {
+      res.redirect('/');
+      return;
+    }
+
+    res.render('edit_post', { title: 'Edit Post', post });
+    return;
+  } catch (e) {
+    console.log(e)
+    next(e)
+    return;
+  }
+}
+
+const updatePost = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: {
+        id: req.params.post_id,
+        createdByUser: req.session.user.id
+      },
+      attributes: ['id', 'slug'],
+    });
+
+    if (!post) {
+      res.redirect('/');
+      return;
+    }
+
+    post.content = req.xop.content;
+
+    await post.save();
+
+    res.redirect(`/p/${post.slug}`);
+    return;
+  } catch (e) {
+    console.log(e)
+    next(e)
+    return;
+  }
+}
+
 module.exports = {
   getNewPostPage,
   createPost,
-  getPostPage
+  getPostPage,
+  getPostEditPage,
+  updatePost
 }
