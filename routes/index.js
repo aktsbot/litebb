@@ -52,6 +52,7 @@ router.get('/b/:board_slug', authMiddleware.addUserMeta, generalController.getBo
 
 // posts
 router.get('/p/:post_slug', authMiddleware.addUserMeta, postController.getPostPage);
+router.get('/p/:post_slug/edit', authMiddleware.addUserMeta, postController.getPostEditPage);
 router.get('/b/:board_slug/new-post', authMiddleware.isSessionActive, postController.getNewPostPage)
 router.post('/b/:board_id/new-post', authMiddleware.isSessionActive, postValidator.createPost, postController.createPost)
 
