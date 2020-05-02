@@ -15,14 +15,15 @@ block content
             | #{message}
 
     .m-t-md
-      form(action=`${'/p/' + post.id + '/update'}` method='put' autocomplete='off')
-        .m-v-sm
-          input(
-            type='text' name='name' disabled=""
-            required='' maxlength='255' 
-            autofocus='' placeholder='Title of the post'
-            value=`${post.name}`
-            ).input-border.p-sm.full-width.border-box.m-v-md
+      form(action=`${'/p/' + post.id + '/update'}` method='POST' autocomplete='off')
+        if (post.name)
+          .m-v-sm
+            input(
+              type='text' name='name' disabled=""
+              required='' maxlength='255' 
+              autofocus='' placeholder='Title of the post'
+              value=`${post.name}`
+              ).input-border.p-sm.full-width.border-box.m-v-md
         .m-v-sm
           textarea(
             name='content' 

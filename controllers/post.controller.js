@@ -169,9 +169,38 @@ const getPostEditPage = async (req, res, next) => {
   }
 }
 
+const updatePost = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: {
+        id: req.params.post_id,
+        createdByUser: req.session.user.id
+      },
+      attributes: ['id', 'slug'],
+    });
+
+    if (!post) {
+      res.redirect('/');
+      return;
+    }
+
+    post.content = req.xop.content;
+
+    await post.save();
+
+    res.redirect(`/p/${post.slug}`);
+    return;
+  } catch (e) {
+    console.log(e)
+    next(e)
+    return;
+  }
+}
+
 module.exports = {
   getNewPostPage,
   createPost,
   getPostPage,
-  getPostEditPage
+  getPostEditPage,
+  updatePost
 }
