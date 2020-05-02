@@ -19,6 +19,10 @@ block content
     
     .m-t-md.m-b-xl
       .p-sm.ws-prewrap #{post.content}
+      if (user && user.id == post.author.id)
+        .flex
+          span.flex__grow
+          a(href=`${currentPath + '/edit'}`).aubergine.underline--hover Edit
 
       each reply, index in replies
         .m-t-md.p-sm.background-aubergine
