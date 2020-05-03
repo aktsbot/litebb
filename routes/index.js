@@ -27,6 +27,9 @@ router.get('/forgot-password', userController.forgotPasswordForm);
 router.post('/signup', userValidator.signUpNewUser, userController.signupNewUser);
 router.post('/login', userValidator.loginUser, userController.loginUser);
 router.get('/logout', userController.logoutUser);
+router.post('/forgot-password',
+  userValidator.sendForgotPasswordMail,
+  userController.sendForgotPasswordMail);
 
 // settings
 router.get('/settings',

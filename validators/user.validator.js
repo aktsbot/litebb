@@ -67,7 +67,31 @@ const loginUser = (req, res, next) => {
   }
 };
 
+const sendForgotPasswordMail = (req, res, next) => {
+  const schema = {
+    email: joi
+      .string()
+      .email()
+      .required(),
+  };
+
+  const { error, value } = joi.validate(req.body, schema);
+
+  if (error) {
+    // console.log(error.details)
+    req.flash('error', error.details.map(err => err.message));
+    res.render('forgot_password', { title: 'Forgot Password', body: req.body, flashes: req.flash() });
+    return;
+  } else {
+    req.xop = {
+      email: value.email
+    };
+    next();
+  }
+};
+
 module.exports = {
   signUpNewUser,
-  loginUser
+  loginUser,
+  sendForgotPasswordMail
 }

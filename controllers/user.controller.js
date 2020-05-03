@@ -143,12 +143,12 @@ const sendForgotPasswordMail = async (req, res, next) => {
       resetPasswordToken: resetToken
     });
 
-    const resetURL = `http://${req.headers.host}/reset-password/${resetToken}`;
+    const resetURL = `http://${req.headers.host}/reset-password?token=${resetToken}&email=${user.email}`;
 
-    const html = `<p>To reset your password, click <a href="${resetURL}">here</a></p>`;
+    let html = `<p>To reset your password, click <a href="${resetURL}">here</a></p>`;
     html += `<p>Best,<br/>The ${siteName} admin</p>`;
 
-    const text = `Visit ${resetURL} to reset your password.`;
+    let text = `Visit ${resetURL} to reset your password.`;
     text += `Best, \r\nThe ${siteName} admin`;
 
     const msg = {
