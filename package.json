@@ -7,6 +7,7 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.1.0",
     "bcrypt": "^4.0.1",
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^6.1.1",
