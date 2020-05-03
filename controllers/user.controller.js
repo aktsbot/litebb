@@ -122,7 +122,7 @@ const logoutUser = (req, res, next) => {
   })
 }
 
-const sendForgotPasswordMail = (req, res, next) => {
+const sendForgotPasswordMail = async (req, res, next) => {
   try {
 
     const user = await User.findOne({
