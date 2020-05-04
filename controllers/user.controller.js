@@ -187,8 +187,14 @@ const getResetPasswordForm = async (req, res, next) => {
       return;
     }
 
+    const pageData = {
+      username: user.username,
+      email: req.xop.email,
+      token: req.xop.token
+    };
+
     req.flash('success', [`Hi, ${user.username}!`]);
-    res.render('reset_password', { title: 'Reset Password', body: { username: user.username }, flashes: req.flash() });
+    res.render('reset_password', { title: 'Reset Password', body: pageData, flashes: req.flash() });
     return;
   } catch (e) {
     next(e)
