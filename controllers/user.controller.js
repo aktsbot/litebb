@@ -171,6 +171,32 @@ const sendForgotPasswordMail = async (req, res, next) => {
   }
 }
 
+const getResetPasswordForm = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.xop.email,
+        resetPasswordToken: req.xop.token
+      },
+      attributes: ['id', 'resetPasswordToken', 'email', 'username']
+    });
+
+    if (!user) {
+      req.flash('error', ['Email or reset token not valid']);
+      res.render('forgot_password', { title: 'Forgot Password', body: { email: req.xop.email }, flashes: req.flash() });
+      return;
+    }
+
+    req.flash('success', [`Hi, ${user.username}!`]);
+    res.render('reset_password', { title: 'Reset Password', body: { username: user.username }, flashes: req.flash() });
+    return;
+  } catch (e) {
+    next(e)
+    console.log(e)
+    return;
+  }
+}
+
 module.exports = {
   loginForm,
   signUpForm,
@@ -179,5 +205,6 @@ module.exports = {
   signupNewUser,
   loginUser,
   logoutUser,
-  sendForgotPasswordMail
+  sendForgotPasswordMail,
+  getResetPasswordForm
 }

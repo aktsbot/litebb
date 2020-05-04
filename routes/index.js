@@ -30,6 +30,10 @@ router.get('/logout', userController.logoutUser);
 router.post('/forgot-password',
   userValidator.sendForgotPasswordMail,
   userController.sendForgotPasswordMail);
+router.get('/reset-password',
+  userValidator.resetPassword,
+  userController.getResetPasswordForm
+);
 
 // settings
 router.get('/settings',

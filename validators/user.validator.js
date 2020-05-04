@@ -90,8 +90,38 @@ const sendForgotPasswordMail = (req, res, next) => {
   }
 };
 
+const resetPassword = (req, res, next) => {
+  const schema = {
+    token: joi
+      .string()
+      .min(8)
+      .max(8)
+      .required(),
+    email: joi
+      .string()
+      .email()
+      .required(),
+  };
+
+  const { error, value } = joi.validate(req.query, schema);
+
+  if (error) {
+    // console.log(error.details)
+    res.redirect('/login')
+    return;
+  } else {
+    req.xop = {
+      email: value.email,
+      token: value.token
+    };
+    next();
+  }
+};
+
+
 module.exports = {
   signUpNewUser,
   loginUser,
-  sendForgotPasswordMail
+  sendForgotPasswordMail,
+  resetPassword
 }
