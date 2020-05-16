@@ -129,7 +129,7 @@ const sendForgotPasswordMail = async (req, res, next) => {
       where: {
         email: req.xop.email
       },
-      attributes: ['id', 'email', 'username']
+      attributes: ['id', 'email', 'username', 'resetPasswordToken']
     })
 
     if (!user) {
@@ -139,9 +139,8 @@ const sendForgotPasswordMail = async (req, res, next) => {
     }
 
     const resetToken = makeRandomId(8);
-    await user.save({
-      resetPasswordToken: resetToken
-    });
+    user.resetPasswordToken = resetToken;
+    await user.save();
 
     const resetURL = `http://${req.headers.host}/reset-password?token=${resetToken}&email=${user.email}`;
 
