@@ -31,8 +31,12 @@ router.post('/forgot-password',
   userValidator.sendForgotPasswordMail,
   userController.sendForgotPasswordMail);
 router.get('/reset-password',
-  userValidator.resetPassword,
+  userValidator.getResetPasswordForm,
   userController.getResetPasswordForm
+);
+router.post('/reset-password',
+  userValidator.resetPassword,
+  userController.resetPassword
 );
 
 // settings

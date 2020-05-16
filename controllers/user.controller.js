@@ -203,6 +203,38 @@ const getResetPasswordForm = async (req, res, next) => {
   }
 }
 
+const resetPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.xop.email,
+        resetPasswordToken: req.xop.token
+      },
+      attributes: ['id', 'passwordHash', 'resetPasswordToken']
+    });
+
+    if (!user) {
+      req.flash('error', [`Email or reset token not found`]);
+      res.render('reset_password', { title: 'Reset Password', body: req.body, flashes: req.flash() });
+      return;
+    }
+
+    const passwordHash = await bcryptHashP(req.body.password, 10)
+    user.passwordHash = passwordHash;
+    user.resetPasswordToken = '';
+    await user.save();
+
+    req.flash('success', ['Password updated']);
+    res.render('login', { title: 'Log In', flashes: req.flash() });
+    return;
+
+  } catch (e) {
+    next(e)
+    console.log(e)
+    return;
+  }
+}
+
 module.exports = {
   loginForm,
   signUpForm,
@@ -212,5 +244,6 @@ module.exports = {
   loginUser,
   logoutUser,
   sendForgotPasswordMail,
-  getResetPasswordForm
+  getResetPasswordForm,
+  resetPassword
 }
