@@ -18,17 +18,6 @@ needs perfectly.
 P.S the name `liteBB` comes from SQ`Lite` and oh! there's a live instance running
 on https://litebb.aktsbot.in/
 
-## Warning:
-
-- This is very much pre-pre-pre-alpha software. It is incomplete!
-- Editing posts and replies have yet to be done.
-- Forgot password is yet to be done. I have an idea of setting up my own
-email server. If that fails, I'll choose any one of the commonly available
-methods. If you have a suggestion, holla over at the Issues tab.
-- This was hacked together over at weekends, so expect things to break!
-- Thank you for not closing your browser tab.
-- The Issue tab will be filled with leftover TODOs in a few days.
-
 ## Installation
 
 ```
@@ -168,6 +157,7 @@ username
 email
 passwordHash
 role
+resetPasswordToken
 createdAt
 updatedAt
 ```
