@@ -67,7 +67,101 @@ const loginUser = (req, res, next) => {
   }
 };
 
+const sendForgotPasswordMail = (req, res, next) => {
+  const schema = {
+    email: joi
+      .string()
+      .email()
+      .required(),
+  };
+
+  const { error, value } = joi.validate(req.body, schema);
+
+  if (error) {
+    // console.log(error.details)
+    req.flash('error', error.details.map(err => err.message));
+    res.render('forgot_password', { title: 'Forgot Password', body: req.body, flashes: req.flash() });
+    return;
+  } else {
+    req.xop = {
+      email: value.email
+    };
+    next();
+  }
+};
+
+const getResetPasswordForm = (req, res, next) => {
+  const schema = {
+    token: joi
+      .string()
+      .min(8)
+      .max(8)
+      .required(),
+    email: joi
+      .string()
+      .email()
+      .required(),
+  };
+
+  const { error, value } = joi.validate(req.query, schema);
+
+  if (error) {
+    // console.log(error.details)
+    res.redirect('/login')
+    return;
+  } else {
+    req.xop = {
+      email: value.email,
+      token: value.token
+    };
+    next();
+  }
+};
+
+const resetPassword = (req, res, next) => {
+  const schema = {
+    token: joi
+      .string()
+      .min(8)
+      .max(8)
+      .required(),
+    email: joi
+      .string()
+      .email()
+      .required(),
+    password: joi
+      .string()
+      .min(8)
+      .max(20)
+      .required(),
+    password_confirm: joi
+      .string()
+      .min(8)
+      .max(20)
+      .required()
+      .valid(joi.ref('password'))
+  };
+
+  const { error, value } = joi.validate(req.body, schema);
+
+  if (error) {
+    // console.log(error.details)
+    req.flash('error', error.details.map(err => err.message));
+    res.render('reset_password', { title: 'Reset Password', body: req.body, flashes: req.flash() });
+    return;
+  } else {
+    req.xop = {
+      email: value.email,
+      token: value.token
+    };
+    next();
+  }
+};
+
 module.exports = {
   signUpNewUser,
-  loginUser
+  loginUser,
+  sendForgotPasswordMail,
+  getResetPasswordForm,
+  resetPassword
 }

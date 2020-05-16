@@ -1,10 +1,15 @@
 const bcrypt = require('bcrypt');
+const sgMail = require('@sendgrid/mail');
+
 const { promisify } = require('util');
 const { Op } = require("sequelize");
 const bcryptHashP = promisify(bcrypt.hash);
 const bcryptCompareP = promisify(bcrypt.compare);
 
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 const { User } = require('../models');
+const { siteName, makeRandomId } = require('../helpers');
 
 const loginForm = (req, res) => {
   if (req.session && req.session.user) {
@@ -117,6 +122,118 @@ const logoutUser = (req, res, next) => {
   })
 }
 
+const sendForgotPasswordMail = async (req, res, next) => {
+  try {
+
+    const user = await User.findOne({
+      where: {
+        email: req.xop.email
+      },
+      attributes: ['id', 'email', 'username', 'resetPasswordToken']
+    })
+
+    if (!user) {
+      req.flash('error', ['Email not registered']);
+      res.render('forgot_password', { title: 'Forgot Password', body: req.body, flashes: req.flash() });
+      return;
+    }
+
+    const resetToken = makeRandomId(8);
+    user.resetPasswordToken = resetToken;
+    await user.save();
+
+    const resetURL = `http://${req.headers.host}/reset-password?token=${resetToken}&email=${user.email}`;
+
+    let html = `<p>To reset your password, click <a href="${resetURL}">here</a></p>`;
+    html += `<p>Best,<br/>The ${siteName} admin</p>`;
+
+    let text = `Visit ${resetURL} to reset your password.`;
+    text += `Best, \r\nThe ${siteName} admin`;
+
+    const msg = {
+      to: user.email,
+      from: process.env.ADMIN_EMAIL,
+      subject: `Reset password instructions: ${siteName}`,
+      text,
+      html,
+    };
+
+    await sgMail.send(msg);
+    req.flash('success', ['Check email for reset instructions']);
+    res.render('forgot_password', { title: 'Forgot Password', body: req.body, flashes: req.flash() });
+    return;
+
+  } catch (e) {
+    next(e)
+    console.log(e)
+    return;
+  }
+}
+
+const getResetPasswordForm = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.xop.email,
+        resetPasswordToken: req.xop.token
+      },
+      attributes: ['id', 'resetPasswordToken', 'email', 'username']
+    });
+
+    if (!user) {
+      req.flash('error', ['Email or reset token not valid']);
+      res.render('forgot_password', { title: 'Forgot Password', body: { email: req.xop.email }, flashes: req.flash() });
+      return;
+    }
+
+    const pageData = {
+      username: user.username,
+      email: req.xop.email,
+      token: req.xop.token
+    };
+
+    req.flash('success', [`Hi, ${user.username}!`]);
+    res.render('reset_password', { title: 'Reset Password', body: pageData, flashes: req.flash() });
+    return;
+  } catch (e) {
+    next(e)
+    console.log(e)
+    return;
+  }
+}
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.xop.email,
+        resetPasswordToken: req.xop.token
+      },
+      attributes: ['id', 'passwordHash', 'resetPasswordToken']
+    });
+
+    if (!user) {
+      req.flash('error', [`Email or reset token not found`]);
+      res.render('reset_password', { title: 'Reset Password', body: req.body, flashes: req.flash() });
+      return;
+    }
+
+    const passwordHash = await bcryptHashP(req.body.password, 10)
+    user.passwordHash = passwordHash;
+    user.resetPasswordToken = '';
+    await user.save();
+
+    req.flash('success', ['Password updated']);
+    res.render('login', { title: 'Log In', flashes: req.flash() });
+    return;
+
+  } catch (e) {
+    next(e)
+    console.log(e)
+    return;
+  }
+}
+
 module.exports = {
   loginForm,
   signUpForm,
@@ -124,5 +241,8 @@ module.exports = {
 
   signupNewUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  sendForgotPasswordMail,
+  getResetPasswordForm,
+  resetPassword
 }

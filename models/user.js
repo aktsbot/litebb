@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     passwordHash: DataTypes.STRING,
-    role: DataTypes.ENUM('admin', 'regular')
+    role: DataTypes.ENUM('admin', 'regular'),
+    resetPasswordToken: DataTypes.STRING
   });
 
   // User.associate = function (models) {
