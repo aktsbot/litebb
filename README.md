@@ -133,6 +133,7 @@ Posts
 id
 name
 content
+renderedContent
 slug
 boardId
 createdByUser
