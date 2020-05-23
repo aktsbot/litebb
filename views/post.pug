@@ -18,7 +18,7 @@ block content
     hr
     
     .m-t-md.m-b-xl
-      .p-sm.ws-prewrap #{post.content}
+      .p-sm.ws-prewrap!= post.renderedContent
       if (user && user.id == post.author.id)
         .flex
           span.gray.font-small Last edited: #{post.updatedAtFormatted}

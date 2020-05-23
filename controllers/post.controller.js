@@ -1,3 +1,11 @@
+const showdown = require('showdown');
+const xss = require('xss');
+const converter = new showdown.Converter();
+// prevent a # foo from becoming <h1 id="foo">foo</h1>
+converter.setOption('noHeaderId', true);
+// # foo -> <h3 id="foo">foo</h3>
+converter.setOption('headerLevelStart', 3);
+
 const { Board, Post, User, Reply } = require('../models');
 const { makeSlug, displayDateTime } = require('../helpers');
 
@@ -35,10 +43,15 @@ const createPost = async (req, res, next) => {
     const post = {
       name: req.body.name,
       content: req.body.content,
+      renderedContent: '',
       slug: makeSlug(req.body.name),
       boardId: board_id,
       createdByUser: req.session.user.id
     };
+
+    let html = converter.makeHtml(post.content);
+    html = xss(html);
+    post.renderedContent = html;
 
     const newPost = await Post.create(post);
 
@@ -64,7 +77,7 @@ const getPostPage = async (req, res, next) => {
       where: {
         slug: req.params.post_slug
       },
-      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'name', 'content', 'renderedContent', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
       include: [
         {
           model: User,
@@ -186,6 +199,9 @@ const updatePost = async (req, res, next) => {
     }
 
     post.content = req.xop.content;
+    let html = converter.makeHtml(post.content);
+    html = xss(html);
+    post.renderedContent = html;
 
     await post.save();
 
