@@ -1,5 +1,22 @@
 const siteName = 'liteBB';
 
+// markdown to html conversion is done
+// with showdown and then passing the html
+// generated to xss
+const showdown = require('showdown');
+const xss = require('xss');
+const converter = new showdown.Converter();
+// prevent a # foo from becoming <h1 id="foo">foo</h1>
+converter.setOption('noHeaderId', true);
+// # foo -> <h3 id="foo">foo</h3>
+converter.setOption('headerLevelStart', 3);
+
+const convertMdToHTML = (content) => {
+  let html = converter.makeHtml(content);
+  html = xss(html);
+  return html;
+}
+
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 const makeRandomId = (length) => {
   let result = '';
@@ -42,5 +59,6 @@ module.exports = {
   makeRandomId,
   makeSlug,
   displayDateTime,
-  displayDate
+  displayDate,
+  convertMdToHTML
 }

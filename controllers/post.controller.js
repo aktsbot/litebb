@@ -1,5 +1,5 @@
 const { Board, Post, User, Reply } = require('../models');
-const { makeSlug, displayDateTime } = require('../helpers');
+const { makeSlug, displayDateTime, convertMdToHTML } = require('../helpers');
 
 const getNewPostPage = async (req, res, next) => {
   try {
@@ -35,10 +35,13 @@ const createPost = async (req, res, next) => {
     const post = {
       name: req.body.name,
       content: req.body.content,
+      renderedContent: '',
       slug: makeSlug(req.body.name),
       boardId: board_id,
       createdByUser: req.session.user.id
     };
+
+    post.renderedContent = convertMdToHTML(post.content);
 
     const newPost = await Post.create(post);
 
@@ -64,7 +67,7 @@ const getPostPage = async (req, res, next) => {
       where: {
         slug: req.params.post_slug
       },
-      attributes: ['id', 'name', 'content', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'name', 'content', 'renderedContent', 'boardId', 'createdByUser', 'createdAt', 'updatedAt'],
       include: [
         {
           model: User,
@@ -186,6 +189,7 @@ const updatePost = async (req, res, next) => {
     }
 
     post.content = req.xop.content;
+    post.renderedContent = convertMdToHTML(post.content);
 
     await post.save();
 
