@@ -1,13 +1,5 @@
-const showdown = require('showdown');
-const xss = require('xss');
-const converter = new showdown.Converter();
-// prevent a # foo from becoming <h1 id="foo">foo</h1>
-converter.setOption('noHeaderId', true);
-// # foo -> <h3 id="foo">foo</h3>
-converter.setOption('headerLevelStart', 3);
-
 const { Board, Post, User, Reply } = require('../models');
-const { makeSlug, displayDateTime } = require('../helpers');
+const { makeSlug, displayDateTime, convertMdToHTML } = require('../helpers');
 
 const getNewPostPage = async (req, res, next) => {
   try {
@@ -49,9 +41,7 @@ const createPost = async (req, res, next) => {
       createdByUser: req.session.user.id
     };
 
-    let html = converter.makeHtml(post.content);
-    html = xss(html);
-    post.renderedContent = html;
+    post.renderedContent = convertMdToHTML(post.content);
 
     const newPost = await Post.create(post);
 
@@ -199,9 +189,7 @@ const updatePost = async (req, res, next) => {
     }
 
     post.content = req.xop.content;
-    let html = converter.makeHtml(post.content);
-    html = xss(html);
-    post.renderedContent = html;
+    post.renderedContent = convertMdToHTML(post.content);
 
     await post.save();
 
