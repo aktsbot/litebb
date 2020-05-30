@@ -291,9 +291,12 @@ details:hover {
 }
 
 .user-post ul, .user-post ol {
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.user-post ul {
   list-style: inherit;
-  margin-left: 5px;
-  padding-left: 5px;
 }
 
 .user-post a {
