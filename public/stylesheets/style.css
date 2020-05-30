@@ -285,3 +285,32 @@ details:hover {
 .d-none {
   display: none;
 }
+
+.user-post {
+  line-height: 1.3;
+}
+
+.user-post ul, .user-post ol {
+  list-style: inherit;
+  margin-left: 5px;
+  padding-left: 5px;
+}
+
+.user-post a {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.user-post pre {
+  margin: 0 0 11px;
+  overflow: auto;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  padding: 5px;
+  background: #DAD7D3;
+}
+
+.user-post code {
+  background: #DAD7D3;
+}
