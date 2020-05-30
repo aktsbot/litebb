@@ -300,7 +300,7 @@ details:hover {
 }
 
 .user-post a {
-  text-decoration: inherit;
+  text-decoration: underline;
   color: inherit;
 }
 
