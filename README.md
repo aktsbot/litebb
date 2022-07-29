@@ -24,10 +24,10 @@ on https://litebb.aktsbot.in/
 $ git clone --depth=1 https://github.com/aktsbot/litebb litebb
 $ cd litebb
 $ npm i
-$ NODE_ENV=production ./node_modules/.bin/sequelize db:migrate  
+$ mkdir dbs
+$ NODE_ENV=production ./node_modules/.bin/sequelize db:migrate
 $ cp example.env .env
 $ # change the values in .env
-$ mkdir dbs
 $ npm start 
 ```
 
