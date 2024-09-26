@@ -1,27 +1,29 @@
-const joi = require('joi')
+const joi = require("joi");
 
 const createNewReply = (req, res, next) => {
-
   const payload = {
     content: req.body.content,
-    postId: req.params.post_id
-  }
-
-  const schema = {
-    content: joi
-      .string()
-      .required(),
-    postId: joi
-      .number()
-      .required(),
+    postId: req.params.post_id,
   };
 
-  const { error, value } = joi.validate(payload, schema);
+  const schema = joi.object({
+    content: joi.string().required(),
+    postId: joi.number().required(),
+  });
+
+  const { error, value } = schema.validate(payload);
 
   if (error) {
-    console.log(error.details)
-    req.flash('error', error.details.map(err => err.message));
-    res.render('new_reply', { title: 'New Reply', body: req.body, flashes: req.flash() });
+    console.log(error.details);
+    req.flash(
+      "error",
+      error.details.map((err) => err.message),
+    );
+    res.render("new_reply", {
+      title: "New Reply",
+      body: req.body,
+      flashes: req.flash(),
+    });
     return;
   } else {
     req.xop = {
@@ -34,4 +36,5 @@ const createNewReply = (req, res, next) => {
 
 module.exports = {
   createNewReply,
-}
+};
+

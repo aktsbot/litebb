@@ -1,21 +1,24 @@
-const joi = require('joi')
+const joi = require("joi");
 
 const createNewBoard = (req, res, next) => {
-  const schema = {
-    name: joi
-      .string()
-      .required(),
-    description: joi
-      .string()
-      .required(),
-  };
+  const schema = joi.object({
+    name: joi.string().required(),
+    description: joi.string().required(),
+  });
 
-  const { error, value } = joi.validate(req.body, schema);
+  const { error, value } = schema.validate(req.body);
 
   if (error) {
-    console.log(error.details)
-    req.flash('error', error.details.map(err => err.message));
-    res.render('new_board', { title: 'New Board', body: req.body, flashes: req.flash() });
+    console.log(error.details);
+    req.flash(
+      "error",
+      error.details.map((err) => err.message),
+    );
+    res.render("new_board", {
+      title: "New Board",
+      body: req.body,
+      flashes: req.flash(),
+    });
     return;
   } else {
     req.xop = {
@@ -28,4 +31,5 @@ const createNewBoard = (req, res, next) => {
 
 module.exports = {
   createNewBoard,
-}
+};
+
