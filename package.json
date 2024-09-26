@@ -20,10 +20,10 @@
     "joi": "^14.3.1",
     "morgan": "~1.9.1",
     "pug": "^3.0.2",
-    "sequelize": "^5.21.7",
+    "sequelize": "^5.22.5",
     "sequelize-cli": "^5.5.1",
     "showdown": "^1.9.1",
-    "sqlite3": "^4.2.0",
+    "sqlite3": "^5.1.7",
     "xss": "^1.0.6"
   },
   "devDependencies": {
