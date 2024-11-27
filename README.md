@@ -1,19 +1,20 @@
 # liteBB
 
-liteBB is a very tiny BBS/forum written in Node.js. 
+liteBB is a very tiny BBS/forum written in Node.js.
 
 It's goals are
+
 - To have **No frontend JavaScript**. Everything is server-side rendered.
 - To be small and fast.
-- To have a code-base that can be easily understood by newcomers to the 
-language.
+- To have a code-base that can be easily understood by newcomers to the
+  language.
 - To be easy to deploy. ie. less or no moving parts.
 
-**Note:** The choice of sequelize is that, if you, the user 
-decide, you want a bigger database powering your community 
+**Note:** The choice of sequelize is that, if you, the user
+decide, you want a bigger database powering your community
 discussions, you can change it just like that, in the config.
 SQLite was chosen because its fits my
-needs perfectly. 
+needs perfectly.
 
 P.S the name `liteBB` comes from SQ`Lite` and oh! there's a live instance running
 on https://litebb.aktsbot.in/
@@ -28,7 +29,7 @@ $ mkdir dbs
 $ NODE_ENV=production ./node_modules/.bin/sequelize db:migrate
 $ cp example.env .env
 $ # change the values in .env
-$ npm start 
+$ npm start
 ```
 
 ## The idea and the first run
@@ -47,32 +48,33 @@ $ npm start
 ### The first run
 
 - In the `.env` file, if there is a `FIRST_RUN=1` entry,
-then users created while the app is running are `admin`s.
-- So ideally when you set the forum up, have `FIRST_RUN=1` in 
-the `.env` file. Then create your admin user.
+  then users created while the app is running are `admin`s.
+- So ideally when you set the forum up, have `FIRST_RUN=1` in
+  the `.env` file. Then create your admin user.
 - Stop the server. Comment out `FIRST_RUN=1` or remove it and then
-restart the server.
-- I understand, this isn't ideal, but the software will be improved on.  
+  restart the server.
+- I understand, this isn't ideal, but the software will be improved on.
 
 ## Hacking
 
-0.  SQLite is the star here. So have the `sqlite3` binary installed on our 
-    machine. For a GUI tool, there's [sqlitebrowser](https://sqlitebrowser.org/). 
-    If you're using the `sqlite3` binary, having the following in 
+0.  SQLite is the star here. So have the `sqlite3` binary installed on our
+    machine. For a GUI tool, there's [sqlitebrowser](https://sqlitebrowser.org/).
+    If you're using the `sqlite3` binary, having the following in
     `$HOME/.sqliterc` helps.
+
     ```
     .header on
-    .mode column  
+    .mode column
     ```
 
 1.  We'll need node.js installed on our machine. This is a node
-    project after all. Also it helps, to install some tools like the 
+    project after all. Also it helps, to install some tools like the
     `sequelize` cli globally.
 
     ```
-    export NPM_PACKAGES=$HOME/.npm                                                  
-    export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"                    
-    export PATH=$NPM_PACKAGES/bin:$HOME/bin:$PATH 
+    export NPM_PACKAGES=$HOME/.npm
+    export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+    export PATH=$NPM_PACKAGES/bin:$HOME/bin:$PATH
     ```
 
     I don't like to `sudo npm i -g package`. With the above 3 lines in our `$HOME/.profile`, we could do the same without sudo. `$ npx sequelize` works too, but hey!
@@ -81,7 +83,7 @@ restart the server.
     globally, just add an alias to our `$HOME/.bashrc`. This is what I have
 
     ```
-    alias sequelize="node_modules/.bin/sequelize" 
+    alias sequelize="node_modules/.bin/sequelize"
     ```
 
 3.  To start the app in debug mode
@@ -90,7 +92,7 @@ restart the server.
     $ DEBUG=litebb:* npm start
     ```
 
-4. Sequelize cheatsheet, shamelessly ripped off from their [README](https://github.com/sequelize/cli#usage)
+4.  Sequelize cheatsheet, shamelessly ripped off from their [README](https://github.com/sequelize/cli#usage)
     ```
     Commands:
       sequelize db:migrate                        Run pending migrations
@@ -163,8 +165,8 @@ createdAt
 updatedAt
 ```
 
-
 ## Thanks
+
 - This software was influenced by writings of [Nikita Prokopov](https://tonsky.me/blog/disenchantment/) and [Matt Reyer](https://javascript.works-hub.com/learn/a-javascript-free-frontend-61275). Thank you both for the teachings.
 - The styling of the forum is borrowed from [Slimvoice](https://slimvoice.co/), with accents from [ubuntu](https://design.ubuntu.com/brand/colour-palette/). Without them, liteBB wouldn't exist.
 - This project was generated with the wonderful [express-generator](https://expressjs.com/en/starter/generator.html) cli.
@@ -172,5 +174,3 @@ updatedAt
 - https://handyman.dulare.com/session-management-in-express/
 - https://github.com/sequelize/express-example
 - https://www.npmjs.com/package/connect-session-sequelize
-
-
