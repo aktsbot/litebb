@@ -1,6 +1,9 @@
 extends layout
 
+include mixins/breadcrumb
+
 block content
+  +breadcrumb(breadcrumbData)
   .card
     .flex.flex-center
       h2.aubergine.m-v-md #{title}
@@ -46,5 +49,5 @@ block content
           small.bold.gray on&nbsp;
           | #{post.createdAtFormatted}
       
-      .ws-prewrap.p-sm.user-content #{post.content}
+      .p-sm.user-post!= post.renderedContent
 

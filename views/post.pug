@@ -1,8 +1,10 @@
 extends layout
 
 include mixins/pagination
+include mixins/breadcrumb
 
 block content
+  +breadcrumb(breadcrumbData)
   .card
     .flex.flex-center
       h2.aubergine.m-v-md #{post.name}

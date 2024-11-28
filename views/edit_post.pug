@@ -1,6 +1,9 @@
 extends layout
 
+include mixins/breadcrumb
+
 block content
+  +breadcrumb(breadcrumbData)
   .card
     .flex.flex-center
       h2.aubergine.m-v-md #{title}
