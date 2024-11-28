@@ -1,0 +1,9 @@
+mixin breadcrumb(items)
+  .breadcrumb
+    ul
+      each item in items
+        li
+          if item.link
+            a(href=`${item.link}`).aubergine.underline--hover #{item.name}
+          else
+            span #{item.name}
