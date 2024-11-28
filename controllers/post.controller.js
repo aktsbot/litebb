@@ -189,6 +189,7 @@ const getPostEditPage = async (req, res, next) => {
         "boardId",
         "createdByUser",
         "createdAt",
+        "slug",
       ],
       include: [
         {
@@ -212,6 +213,7 @@ const getPostEditPage = async (req, res, next) => {
     const breadcrumbData = [
       { link: "/", name: "Index" },
       { link: `/b/${post.board.slug}`, name: post.board.name },
+      { link: `/p/${post.slug}`, name: post.name },
       { name: "Edit Post" },
     ];
 
