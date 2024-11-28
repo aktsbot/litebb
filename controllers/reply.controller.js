@@ -1,63 +1,75 @@
-const { Board, Post, User, Reply } = require('../models');
-const { displayDateTime } = require('../helpers');
+const { Board, Post, User, Reply } = require("../models");
+const { displayDateTime } = require("../helpers");
 
 const getNewReplyPage = async (req, res, next) => {
   try {
-
     const post = await Post.findOne({
       where: {
-        slug: req.params.post_slug
+        slug: req.params.post_slug,
       },
-      attributes: ['id', 'name', 'content', 'createdAt'],
+      attributes: [
+        "id",
+        "name",
+        "content",
+        "renderedContent",
+        "createdAt",
+        "slug",
+      ],
       include: [
         {
           model: Board,
-          as: 'board',
-          attributes: ['id', 'name']
+          as: "board",
+          attributes: ["id", "name", "slug"],
         },
         {
           model: User,
-          as: 'author',
-          attributes: ['id', 'username']
+          as: "author",
+          attributes: ["id", "username"],
         },
-      ]
-    })
+      ],
+    });
 
     if (!post) {
       const err = {
-        message: 'Post to reply for, is not found!',
-        status: 404
-      }
+        message: "Post to reply for, is not found!",
+        status: 404,
+      };
       next(err);
       return;
     }
 
     post.createdAtFormatted = displayDateTime(post.createdAt);
 
-    res.render('new_reply', { title: 'New Reply', post });
+    const breadcrumbData = [
+      { link: "/", name: "Index" },
+      { link: `/b/${post.board.slug}`, name: post.board.name },
+      { link: `/p/${post.slug}`, name: post.name },
+      { name: "New Reply" },
+    ];
+
+    res.render("new_reply", { title: "New Reply", post, breadcrumbData });
     return;
   } catch (e) {
-    console.log(e)
-    next(e)
+    console.log(e);
+    next(e);
     return;
   }
-}
+};
 
 const createNewReply = async (req, res, next) => {
   try {
-
     const post = await Post.findOne({
       where: {
-        id: req.xop.postId
+        id: req.xop.postId,
       },
-      attributes: ['id', 'slug']
-    })
+      attributes: ["id", "slug"],
+    });
 
     if (!post) {
       const err = {
-        message: 'Post to reply for, is not found!',
-        status: 404
-      }
+        message: "Post to reply for, is not found!",
+        status: 404,
+      };
       next(err);
       return;
     }
@@ -67,7 +79,7 @@ const createNewReply = async (req, res, next) => {
     const newReply = await Reply.create({
       postId: req.xop.postId,
       content: req.xop.content,
-      createdByUser: req.session.user.id
+      createdByUser: req.session.user.id,
     });
 
     //TODO: check if creating reply failed
@@ -75,13 +87,14 @@ const createNewReply = async (req, res, next) => {
     res.redirect(url);
     return;
   } catch (e) {
-    console.log(e)
-    next(e)
+    console.log(e);
+    next(e);
     return;
   }
-}
+};
 
 module.exports = {
   getNewReplyPage,
-  createNewReply
-}
+  createNewReply,
+};
+

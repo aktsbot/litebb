@@ -4,7 +4,7 @@ include mixins/pagination
 include mixins/breadcrumb
 
 block content
-  +breadcrumb([{link: '#', name: 'Home'}, {link: '#bo', name: 'Boards'}, {name: 'Oh!'}])
+  +breadcrumb(breadcrumbData)
   .card
     .flex.flex-center
       h2.aubergine.m-v-md #{post.name}
