@@ -338,3 +338,8 @@ details:hover {
   padding: 4px;
 }
 
+@media only screen and (max-width: 800px) {
+  .breadcrumb {
+    padding-left: 10px;
+  }
+}
