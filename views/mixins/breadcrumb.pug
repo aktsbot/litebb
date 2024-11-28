@@ -4,6 +4,6 @@ mixin breadcrumb(items)
       each item in items
         li
           if item.link
-            a(href=`${item.link}`).aubergine.underline--hover #{item.name}
+            a(href=`${item.link}`).aubergine.underline--hover #{h.truncateTitleString(item.name)}
           else
-            span #{item.name}
+            span #{h.truncateTitleString(item.name)}
