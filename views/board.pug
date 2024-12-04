@@ -2,6 +2,11 @@ extends layout
 
 include mixins/pagination
 include mixins/breadcrumb
+include mixins/opengraph
+
+block opengraph
+  +opengraph({content: `See the latest posts on the ${title} board.`, title: title})
+
 
 block content
   +breadcrumb(breadcrumbData)

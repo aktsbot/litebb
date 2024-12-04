@@ -2,6 +2,10 @@ extends layout
 
 include mixins/pagination
 include mixins/breadcrumb
+include mixins/opengraph
+
+block opengraph
+  +opengraph({content: post.content, title: post.name})
 
 block content
   +breadcrumb(breadcrumbData)
