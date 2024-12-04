@@ -1,4 +1,7 @@
-const siteName = "liteBB";
+const config = require("./config/config");
+
+const siteName = config.siteName;
+const cacheBustId = config.startedOn;
 
 // markdown to html conversion is done
 // with showdown and then passing the html
@@ -65,6 +68,7 @@ const truncateTitleString = (title) => {
 
 module.exports = {
   siteName,
+  cacheBustId,
   makeRandomId,
   makeSlug,
   displayDateTime,
@@ -72,4 +76,3 @@ module.exports = {
   convertMdToHTML,
   truncateTitleString,
 };
-
