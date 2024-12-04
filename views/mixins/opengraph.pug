@@ -1,0 +1,6 @@
+mixin opengraph(data)
+  meta(name="description" content=`${data.content}`)
+  meta(property="og:url" content=`${fullUrl}`)
+  meta(property="og:title" content=`${data.title}`)
+  meta(property="og:description" content=`${data.content}`)
+
