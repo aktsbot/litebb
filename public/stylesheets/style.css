@@ -1,7 +1,7 @@
 body {
   background-color: #fafafa;
   font-family: sans-serif;
-  font-size: 13px;
+  font-size: 10.5pt;
   color: #4e4e4e;
   padding: 0;
   margin: 0;
@@ -12,11 +12,19 @@ p {
 }
 
 h1 {
-  font-size: 24px;
-  margin: 0;
+  font-size: 13pt;
   color: #77216f;
 }
 
+h2 {
+  font-size: 12pt;
+}
+
+h3 {
+  font-size: 11pt;
+}
+
+h1,
 h2,
 h3,
 h4 {
@@ -70,7 +78,7 @@ details:hover {
 }
 
 .card {
-  padding: 30px;
+  padding: 15px;
   background-color: #fff;
   box-shadow: 0px 2px 10px rgba(78, 78, 78, 0.1);
 }
