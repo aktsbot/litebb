@@ -23,6 +23,7 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.currentPath = req.path;
   res.locals.fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  res.locals.fullHost = `${req.protocol}://${req.get("host")}`;
   next();
 });
 
