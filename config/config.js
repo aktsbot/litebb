@@ -8,4 +8,6 @@ module.exports = {
     port: process.env.SMTP_PORT,
     host: process.env.SMTP_HOST,
   },
+  startedOn: new Date().getTime(),
+  siteName: process.env.SITE_NAME || "liteBB",
 };

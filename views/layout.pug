@@ -4,7 +4,8 @@ html(lang='en')
     title= `${title} | ${h.siteName}`
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='icon', type="image/x-icon", href="/favicon.ico")
+    link(rel='stylesheet', href=`/stylesheets/style.css?_=${h.cacheBustId}`)
   body
     nav
       .app.nav.flex.flex-center.p-v.sm
