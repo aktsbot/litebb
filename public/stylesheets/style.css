@@ -88,6 +88,10 @@ details:hover {
   margin-top: 10px;
 }
 
+.m-b-sm {
+  margin-bottom: 5px;
+}
+
 .m-b-md {
   margin-bottom: 10px;
 }
