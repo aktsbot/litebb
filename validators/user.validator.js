@@ -150,11 +150,71 @@ const resetPassword = (req, res, next) => {
   }
 };
 
+const updateUserProfile = (req, res, next) => {
+  const schema = joi.object({
+    avatar: joi.string().allow(""),
+    website: joi.string().allow(""),
+  });
+
+  const { error, value } = schema.validate(req.body);
+
+  if (error) {
+    // console.log(error.details)
+    req.flash(
+      "error",
+      error.details.map((err) => err.message),
+    );
+
+    const url = req.header("Referer") || "/";
+    res.redirect(url);
+    return;
+  } else {
+    req.xop = {
+      avatar: value.avatar,
+      website: value.website,
+    };
+    next();
+  }
+};
+
+const changeUserPassword = (req, res, next) => {
+  const schema = joi.object({
+    password_old: joi.string().min(8).max(20).required(),
+    password: joi.string().min(8).max(20).required(),
+    password_confirm: joi
+      .string()
+      .min(8)
+      .max(20)
+      .required()
+      .valid(joi.ref("password")),
+  });
+
+  const { error, value } = schema.validate(req.body);
+
+  if (error) {
+    // console.log(error.details)
+    req.flash(
+      "error",
+      error.details.map((err) => err.message),
+    );
+
+    const url = req.header("Referer") || "/";
+    res.redirect(url);
+    return;
+  } else {
+    req.xop = {
+      password_old: value.password_old,
+      password: value.password,
+    };
+    next();
+  }
+};
 module.exports = {
   signUpNewUser,
   loginUser,
   sendForgotPasswordMail,
   getResetPasswordForm,
   resetPassword,
+  updateUserProfile,
+  changeUserPassword,
 };
-

@@ -14,7 +14,7 @@ block content
       h2.aubergine.m-v-md #{post.name}
       span.p-l-sm
         span.gray by&nbsp; 
-        span @#{post.author.username}&nbsp;
+        a(href=`/u/${post.author.username}`) @#{post.author.username}&nbsp;
         span.gray on&nbsp;
         span #{post.createdAtFormatted}
       span.flex__grow 
@@ -37,7 +37,7 @@ block content
             span.dark-gray ##{index + 1 + skip}
             span.flex__grow
             span
-              span @#{reply.replied_by.username}&nbsp;
+              a(href=`/u/${reply.replied_by.username}`) @#{reply.replied_by.username}&nbsp;
               span.dark-gray.font-small on&nbsp;
               span.font-small #{reply.createdAtFormatted}
           .p-sm.ws-prewrap.user-content #{reply.content}

@@ -1,0 +1,107 @@
+extends layout
+include mixins/flashmessages
+
+block content
+  +flashmessages()
+  .card
+    .flex.flex-center.m-v-md
+      h2.aubergine #{userInfo.username}'s Profile
+    hr
+
+    .flex.flex-center.m-v-md
+      if userInfo.avatar
+        img(src=`${userInfo.avatar}` alt=`${userInfo.username}'s avatar` class="avatar avatar-big")
+      div.p-l-sm
+        p.no-margin
+          strong Username: 
+          |#{userInfo.username}
+        p.no-margin
+          strong Role: 
+          |#{userInfo.roleFormatted}
+        p.no-margin
+          strong Email: 
+          a(href=`mailto:${userInfo.email}`) #{userInfo.email}
+        p.no-margin
+          strong Website: 
+          if (userInfo.website)
+            a(href=`${userInfo.website}`) #{userInfo.website}
+          else
+            | -
+        p.no-margin
+          strong Joined on: 
+          |#{userInfo.createdAtFormatted}
+
+    .m-t-sm
+      h3.aubergine Stats
+      hr
+      p.no-margin
+        strong Posts: 
+        |#{postCount}
+      p.no-margin
+        strong Replies: 
+        |#{replyCount}
+
+  if (sameUser)
+    .card
+      .flex.flex-center.m-v-md
+        h2.aubergine Change password
+      hr
+
+      form(action="/change-password" method="post" autocomplete="off" class="m-v-md")
+        .m-v-sm
+          label(for="password_old" class="hidden") Current password
+          input(
+            type='password' name='password_old' id="password_old"
+            required='' minlength='8' maxlength='255' autocomplete="off"
+            autofocus='' placeholder='Current password'
+            ).input-border.p-sm
+
+        .m-v-sm
+          label(for="password" class="hidden") New password
+          input(
+            type='password' name='password' id="password"
+            required='' minlength='8' maxlength='255' 
+            autofocus='' placeholder='New password'
+            ).input-border.p-sm
+        .m-v-sm
+          label(for="password_confirm" class="hidden") Confirm new password
+          input(
+            type='password' name='password_confirm' id="password_confirm"
+            required='' minlength='8' maxlength='255'
+            autofocus='' placeholder='Confirm new password'
+            ).input-border.p-sm
+        
+        .m-v-md
+          input(type='submit' value='Change password').button.button-primary
+
+        p.no-margin.font-small
+          strong Note:
+          |&nbsp;Changing passwords will log you out.
+
+    .card
+      .flex.flex-center.m-v-md
+        h2.aubergine Update profile
+      hr
+
+      form(action="/update-profile" method="post" autocomplete="off" class="m-v-md")
+        .m-v-sm
+          label(for="avatar") Avatar URL
+          input(
+            type='text' name='avatar' id="avatar" class="full-width"
+            placeholder='https://foo.com/images/my-avatar.png'
+            value=`${userInfo.avatar ? userInfo.avatar: ''}`
+            ).input-border.p-sm
+        .m-v-sm
+          label(for="website") Website
+          input(
+            type='text' name='website' id="website" class="full-width"
+            placeholder='https://mysite.com'
+            value=`${userInfo.website ? userInfo.website : ''}`
+            ).input-border.p-sm
+
+        .m-v-md
+          input(type='submit' value='Update profile').button.button-primary
+
+
+
+
