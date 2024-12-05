@@ -6,7 +6,7 @@ const bcryptHashP = promisify(bcrypt.hash);
 const bcryptCompareP = promisify(bcrypt.compare);
 
 const { User } = require("../models");
-const { siteName, makeRandomId } = require("../helpers");
+const { siteName, makeRandomId, displayDate } = require("../helpers");
 
 const { sendEmail } = require("../email");
 
@@ -32,6 +32,50 @@ const forgotPasswordForm = (req, res) => {
     return;
   }
   res.render("forgot_password", { title: "Forgot Password" });
+};
+
+const userProfilePage = async (req, res, next) => {
+  try {
+    const userInfo = await User.findOne({
+      where: {
+        username: req.params.username,
+      },
+      attributes: [
+        "id",
+        "username",
+        "email",
+        "avatar",
+        "role",
+        "createdAt",
+        "website",
+      ],
+    });
+
+    if (!userInfo) {
+      const err = {
+        message: "User not found!",
+        status: 404,
+      };
+      next(err);
+      return;
+    }
+
+    userInfo.createdAtFormatted = displayDate(userInfo.createdAt);
+    userInfo.roleFormatted = userInfo.role;
+    if (userInfo.role === "regular") {
+      userInfo.roleFormatted = "user";
+    }
+
+    res.render("user_profile", {
+      title: `${userInfo.username}'s Profile`,
+      userInfo,
+    });
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
 };
 
 const signupNewUser = async (req, res, next) => {
@@ -267,6 +311,7 @@ module.exports = {
   loginForm,
   signUpForm,
   forgotPasswordForm,
+  userProfilePage,
 
   signupNewUser,
   loginUser,
@@ -275,4 +320,3 @@ module.exports = {
   getResetPasswordForm,
   resetPassword,
 };
-

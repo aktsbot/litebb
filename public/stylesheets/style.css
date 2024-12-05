@@ -346,6 +346,19 @@ details:hover {
   padding: 4px;
 }
 
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.avatar-big {
+  width: 100px;
+  height: 100px;
+}
+
 @media only screen and (max-width: 800px) {
   .breadcrumb {
     padding-left: 10px;
