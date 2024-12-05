@@ -1,6 +1,8 @@
 extends layout
+include mixins/flashmessages
 
 block content
+  +flashmessages()
   .card
     .flex.flex-center.m-v-md
       h2.aubergine #{userInfo.username}'s Profile
@@ -45,14 +47,13 @@ block content
         h2.aubergine Change password
       hr
 
-      form(action="/u/change-password" method="post" autocomplete="off" class="m-v-md")
+      form(action="/change-password" method="post" autocomplete="off" class="m-v-md")
         .m-v-sm
           label(for="password_old" class="hidden") Current password
           input(
             type='password' name='password_old' id="password_old"
-            required='' minlength='8' maxlength='255' autocomplete="new-password"
+            required='' minlength='8' maxlength='255' autocomplete="off"
             autofocus='' placeholder='Current password'
-            value=`${(body && body.password_old) ? body.password_old : ''}`
             ).input-border.p-sm
 
         .m-v-sm
@@ -61,7 +62,6 @@ block content
             type='password' name='password' id="password"
             required='' minlength='8' maxlength='255' 
             autofocus='' placeholder='New password'
-            value=`${(body && body.password) ? body.password : ''}`
             ).input-border.p-sm
         .m-v-sm
           label(for="password_confirm" class="hidden") Confirm new password
@@ -83,7 +83,7 @@ block content
         h2.aubergine Update profile
       hr
 
-      form(action="/u/update-profile" method="post" autocomplete="off" class="m-v-md")
+      form(action="/update-profile" method="post" autocomplete="off" class="m-v-md")
         .m-v-sm
           label(for="avatar") Avatar URL
           input(

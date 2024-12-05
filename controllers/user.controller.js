@@ -332,6 +332,66 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+const changeUserPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.session.user.id,
+      },
+      attributes: ["id", "passwordHash", "username"],
+    });
+
+    const passwordsMatch = await bcryptCompareP(
+      req.xop.password_old,
+      user.passwordHash,
+    );
+
+    if (!passwordsMatch) {
+      req.flash("error", ["Current password is incorrect"]);
+      const url = req.header("Referer") || `/u/${user.username}`;
+      res.redirect(url);
+      return;
+    }
+
+    const passwordHash = await bcryptHashP(req.xop.password, 10);
+    user.passwordHash = passwordHash;
+    user.resetPasswordToken = "";
+    await user.save();
+
+    req.flash("success", ["Password updated"]);
+    res.redirect("/logout");
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
+};
+
+const updateUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.session.user.id,
+      },
+      attributes: ["id", "avatar", "website", "username"],
+    });
+
+    user.website = req.xop.website;
+    user.avatar = req.xop.avatar;
+    await user.save();
+
+    req.flash("success", ["Profile updated"]);
+    const url = req.header("Referer") || `/u/${user.username}`;
+    res.redirect(url);
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
+};
+
 module.exports = {
   loginForm,
   signUpForm,
@@ -344,4 +404,6 @@ module.exports = {
   sendForgotPasswordMail,
   getResetPasswordForm,
   resetPassword,
+  changeUserPassword,
+  updateUserProfile,
 };

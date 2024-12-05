@@ -23,6 +23,12 @@ router.get("/", authMiddleware.addUserMeta, generalController.getIndexPage);
 router.get("/login", userController.loginForm);
 router.get("/signup", userController.signUpForm);
 router.get("/forgot-password", userController.forgotPasswordForm);
+router.get(
+  "/u/:username",
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  userController.userProfilePage,
+);
 
 router.post(
   "/signup",
@@ -46,11 +52,19 @@ router.post(
   userValidator.resetPassword,
   userController.resetPassword,
 );
-router.get(
-  "/u/:username",
+router.post(
+  "/change-password",
   authMiddleware.isSessionActive,
   authMiddleware.addUserMeta,
-  userController.userProfilePage,
+  userValidator.changeUserPassword,
+  userController.changeUserPassword,
+);
+router.post(
+  "/update-profile",
+  authMiddleware.isSessionActive,
+  authMiddleware.addUserMeta,
+  userValidator.updateUserProfile,
+  userController.updateUserProfile,
 );
 
 // settings
