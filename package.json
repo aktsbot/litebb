@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "db:mig:create": "sequelize migration:create --name ",
+    "db:mig:runall": "sequelize db:migrate"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

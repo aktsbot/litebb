@@ -5,8 +5,8 @@ const { Op } = require("sequelize");
 const bcryptHashP = promisify(bcrypt.hash);
 const bcryptCompareP = promisify(bcrypt.compare);
 
-const { User } = require("../models");
-const { siteName, makeRandomId } = require("../helpers");
+const { User, Post, Reply } = require("../models");
+const { siteName, makeRandomId, displayDate } = require("../helpers");
 
 const { sendEmail } = require("../email");
 
@@ -32,6 +32,75 @@ const forgotPasswordForm = (req, res) => {
     return;
   }
   res.render("forgot_password", { title: "Forgot Password" });
+};
+
+const userProfilePage = async (req, res, next) => {
+  try {
+    const userInfo = await User.findOne({
+      where: {
+        username: req.params.username,
+      },
+      attributes: [
+        "id",
+        "username",
+        "email",
+        "avatar",
+        "role",
+        "createdAt",
+        "website",
+      ],
+    });
+
+    if (!userInfo) {
+      const err = {
+        message: "User not found!",
+        status: 404,
+      };
+      next(err);
+      return;
+    }
+
+    let sameUser = false;
+    if (req.session.user.id == userInfo.id) {
+      sameUser = true;
+    }
+
+    const promises = [];
+
+    // post count
+    promises.push(
+      Post.count({
+        where: { createdByUser: userInfo.id },
+      }),
+    );
+    // reply count
+    promises.push(
+      Reply.count({
+        where: { createdByUser: userInfo.id },
+      }),
+    );
+
+    const [postCount, replyCount] = await Promise.all(promises);
+
+    userInfo.createdAtFormatted = displayDate(userInfo.createdAt);
+    userInfo.roleFormatted = userInfo.role;
+    if (userInfo.role === "regular") {
+      userInfo.roleFormatted = "user";
+    }
+
+    res.render("user_profile", {
+      title: `${userInfo.username}'s Profile`,
+      userInfo,
+      postCount,
+      replyCount,
+      sameUser,
+    });
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
 };
 
 const signupNewUser = async (req, res, next) => {
@@ -263,10 +332,71 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+const changeUserPassword = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.session.user.id,
+      },
+      attributes: ["id", "passwordHash", "username"],
+    });
+
+    const passwordsMatch = await bcryptCompareP(
+      req.xop.password_old,
+      user.passwordHash,
+    );
+
+    if (!passwordsMatch) {
+      req.flash("error", ["Current password is incorrect"]);
+      const url = req.header("Referer") || `/u/${user.username}`;
+      res.redirect(url);
+      return;
+    }
+
+    const passwordHash = await bcryptHashP(req.xop.password, 10);
+    user.passwordHash = passwordHash;
+    user.resetPasswordToken = "";
+    await user.save();
+
+    req.flash("success", ["Password updated"]);
+    res.redirect("/logout");
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
+};
+
+const updateUserProfile = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.session.user.id,
+      },
+      attributes: ["id", "avatar", "website", "username"],
+    });
+
+    user.website = req.xop.website;
+    user.avatar = req.xop.avatar;
+    await user.save();
+
+    req.flash("success", ["Profile updated"]);
+    const url = req.header("Referer") || `/u/${user.username}`;
+    res.redirect(url);
+    return;
+  } catch (e) {
+    next(e);
+    console.log(e);
+    return;
+  }
+};
+
 module.exports = {
   loginForm,
   signUpForm,
   forgotPasswordForm,
+  userProfilePage,
 
   signupNewUser,
   loginUser,
@@ -274,5 +404,6 @@ module.exports = {
   sendForgotPasswordMail,
   getResetPasswordForm,
   resetPassword,
+  changeUserPassword,
+  updateUserProfile,
 };
-

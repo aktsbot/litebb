@@ -1,11 +1,13 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define("User", {
     username: DataTypes.STRING,
     email: DataTypes.STRING,
     passwordHash: DataTypes.STRING,
-    role: DataTypes.ENUM('admin', 'regular'),
-    resetPasswordToken: DataTypes.STRING
+    role: DataTypes.ENUM("admin", "regular"),
+    resetPasswordToken: DataTypes.STRING,
+    avatar: DataTypes.TEXT,
+    website: DataTypes.STRING,
   });
 
   // User.associate = function (models) {
@@ -14,13 +16,13 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = function (models) {
     models.Post.belongsTo(models.User, {
-      as: 'author',
-      foreignKey: 'createdByUser'
+      as: "author",
+      foreignKey: "createdByUser",
     });
 
     models.Reply.belongsTo(models.User, {
-      as: 'replied_by',
-      foreignKey: 'createdByUser'
+      as: "replied_by",
+      foreignKey: "createdByUser",
     });
   };
 
