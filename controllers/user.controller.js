@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 const bcryptHashP = promisify(bcrypt.hash);
 const bcryptCompareP = promisify(bcrypt.compare);
 
-const { User } = require("../models");
+const { User, Post, Reply } = require("../models");
 const { siteName, makeRandomId, displayDate } = require("../helpers");
 
 const { sendEmail } = require("../email");
@@ -60,6 +60,28 @@ const userProfilePage = async (req, res, next) => {
       return;
     }
 
+    let sameUser = false;
+    if (req.session.user.id == userInfo.id) {
+      sameUser = true;
+    }
+
+    const promises = [];
+
+    // post count
+    promises.push(
+      Post.count({
+        where: { createdByUser: userInfo.id },
+      }),
+    );
+    // reply count
+    promises.push(
+      Reply.count({
+        where: { createdByUser: userInfo.id },
+      }),
+    );
+
+    const [postCount, replyCount] = await Promise.all(promises);
+
     userInfo.createdAtFormatted = displayDate(userInfo.createdAt);
     userInfo.roleFormatted = userInfo.role;
     if (userInfo.role === "regular") {
@@ -69,6 +91,9 @@ const userProfilePage = async (req, res, next) => {
     res.render("user_profile", {
       title: `${userInfo.username}'s Profile`,
       userInfo,
+      postCount,
+      replyCount,
+      sameUser,
     });
     return;
   } catch (e) {
