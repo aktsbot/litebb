@@ -15,6 +15,9 @@ const loginForm = (req, res) => {
     res.redirect("/");
     return;
   }
+  if (req.query.next) {
+    req.session.nextUrl = req.query.next;
+  }
   res.render("login", { title: "Log In" });
 };
 
@@ -137,7 +140,15 @@ const signupNewUser = async (req, res, next) => {
       username: user.username,
     };
 
-    res.redirect("/");
+    let redirectUrl = "/";
+
+    if (req.session.nextUrl) {
+      redirectUrl = req.session.nextUrl;
+      delete req.session.nextUrl;
+    }
+
+    res.redirect(redirectUrl);
+
     return;
   } catch (e) {
     next(e);
@@ -185,7 +196,14 @@ const loginUser = async (req, res, next) => {
       username: user.username,
     };
 
-    res.redirect("/");
+    let redirectUrl = "/";
+
+    if (req.session.nextUrl) {
+      redirectUrl = req.session.nextUrl;
+      delete req.session.nextUrl;
+    }
+
+    res.redirect(redirectUrl);
     return;
   } catch (e) {
     next(e);
