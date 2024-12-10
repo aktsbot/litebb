@@ -15,7 +15,7 @@ html(lang='en')
           a(href='/').bold.aubergine.underline--hover #{h.siteName}
         span.ws-nowrap
           if user
-            a(href=`/u/${user.username}`).nav__breadcrumb.m-l-md.ws-nowrap @#{user.username}
+            a(href=`/u/${user.username}`).nav__breadcrumb.underline--hover.m-l-md.ws-nowrap @#{user.username}
 
             if user.meta && user.meta.role == 'admin'
               a(href='/settings').nav__breadcrumb.underline--hover.m-l-md.ws-nowrap Settings

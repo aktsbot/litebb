@@ -392,3 +392,65 @@ details:hover {
     padding-left: 10px;
   }
 }
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #c0c0c0;
+  }
+  nav {
+    background-color: #222222;
+    color: #c0c0c0;
+  }
+  h1 {
+    color: #c016b0;
+  }
+  .aubergine {
+    color: #c016b0;
+  }
+  .card {
+    background-color: #181818;
+    border: #272727 1px solid;
+  }
+  hr {
+    border-top: 2px solid #313131;
+  }
+  .background-aubergine {
+    background: #551f46;
+  }
+  .input-border {
+    border-color: #373737;
+  }
+  .button-primary {
+    color: #ccc;
+  }
+  .button-gray-inverted {
+    border-color: #313131;
+    background-color: #333;
+    color: #c0c0c0;
+  }
+  .gray {
+    color: #888888;
+  }
+
+  .dark-gray {
+    color: #686868;
+  }
+
+  input,
+  textarea {
+    color: #c0c0c0;
+  }
+  input:disabled,
+  textarea:disabled {
+    color: #808080;
+  }
+  .user-post code,
+  .user-post pre {
+    background: #222;
+  }
+  .breadcrumb li + li:before {
+    color: #808080;
+  }
+}

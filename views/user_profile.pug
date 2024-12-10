@@ -20,11 +20,11 @@ block content
           |#{userInfo.roleFormatted}
         p.no-margin
           strong Email: 
-          a(href=`mailto:${userInfo.email}`) #{userInfo.email}
+          a(href=`mailto:${userInfo.email}`).underline--hover #{userInfo.email}
         p.no-margin
           strong Website: 
           if (userInfo.website)
-            a(href=`${userInfo.website}`) #{userInfo.website}
+            a(href=`${userInfo.website}`).underline--hover #{userInfo.website}
           else
             | -
         p.no-margin
