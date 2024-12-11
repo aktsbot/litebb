@@ -11,6 +11,5 @@ docker run -it --rm \
     -p "$PORT:$PORT" \
     --env-file .env \
     -e NODE_ENV='production' \
-    #-e FIRST_RUN=1 \
     --volume /tmp/litebb/dbs:/opt/litebb/dbs \
     "${DOCKER_IMAGE_TAG}"
