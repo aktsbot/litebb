@@ -40,14 +40,16 @@ block content
       .m-t-md.p-l-sm
         span.gray.bold In reply to:
       
-      .flex.flex-center
-        h3.aubergine.p-sm #{post.name}
-        span.flex__grow
-        p
-          small.bold.gray by&nbsp;
-          | @#{post.author.username}&nbsp;
-          small.bold.gray on&nbsp;
-          | #{post.createdAtFormatted}
+      .p-sm
+        h3.aubergine #{post.name}
+        p.no-margin
+          small.gray by&nbsp;
+            if (post.author.avatar)
+              img(src=`${post.author.avatar}` alt=`${post.author.username}'s avatar` class="avatar p-r-xs")
+          a(href=`/u/${post.author.username}`).underline--hover
+            span #{post.author.username}
+          small.gray &nbsp;on&nbsp;
+          span.font-small #{post.createdAtFormatted}
       
       .p-sm.user-post!= post.renderedContent
 

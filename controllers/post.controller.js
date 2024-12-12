@@ -89,7 +89,7 @@ const getPostPage = async (req, res, next) => {
         {
           model: User,
           as: "author",
-          attributes: ["id", "username"],
+          attributes: ["id", "username", "avatar"],
         },
         {
           model: Board,
@@ -128,7 +128,7 @@ const getPostPage = async (req, res, next) => {
         {
           model: User,
           as: "replied_by",
-          attributes: ["id", "username"],
+          attributes: ["id", "username", "avatar"],
         },
       ],
     });
@@ -262,4 +262,3 @@ module.exports = {
   getPostEditPage,
   updatePost,
 };
-

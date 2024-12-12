@@ -17,9 +17,8 @@ html(lang='en')
           if user
             a(href=`/u/${user.username}`).nav__breadcrumb.underline--hover.m-l-md.ws-nowrap
               if (user.meta && user.meta.avatar)
-                img(src=`${user.meta.avatar}` alt=`${user.username}'s avatar` class="avatar")
-                span.p-r-xs
-              |@#{user.username}
+                img(src=`${user.meta.avatar}` alt=`${user.username}'s avatar` class="avatar p-r-xs")
+              |#{user.username}
 
             if user.meta && user.meta.role == 'admin'
               a(href='/settings').nav__breadcrumb.underline--hover.m-l-md.ws-nowrap Settings
