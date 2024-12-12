@@ -16,7 +16,7 @@ const addUserMeta = async (req, res, next) => {
       where: {
         id: req.session.user.id,
       },
-      attributes: ["role", "username", "email", "id"],
+      attributes: ["role", "username", "email", "id", "avatar"],
     });
 
     if (user_meta) {
