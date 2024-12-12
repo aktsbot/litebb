@@ -226,6 +226,10 @@ details:hover {
   padding-bottom: 5px;
 }
 
+.p-r-xs {
+  padding-right: 3px;
+}
+
 .staticFlash--success {
   background: #843e64;
   border: 1px solid #772953;
@@ -351,16 +355,18 @@ details:hover {
 }
 
 .avatar {
-  vertical-align: middle;
-  width: 50px;
-  height: 50px;
-  border-radius: 10px;
+  vertical-align: sub;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
   object-fit: cover;
 }
 
 .avatar-big {
   width: 100px;
   height: 100px;
+  vertical-align: middle;
+  border-radius: 10px;
 }
 
 /* thanks: https://stackoverflow.com/questions/64167749/what-to-do-if-i-dont-have-a-label-element-to-go-with-an-input-element */

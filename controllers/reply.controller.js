@@ -24,7 +24,7 @@ const getNewReplyPage = async (req, res, next) => {
         {
           model: User,
           as: "author",
-          attributes: ["id", "username"],
+          attributes: ["id", "username", "avatar"],
         },
       ],
     });
@@ -97,4 +97,3 @@ module.exports = {
   getNewReplyPage,
   createNewReply,
 };
-

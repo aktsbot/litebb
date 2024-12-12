@@ -10,18 +10,22 @@ block opengraph
 block content
   +breadcrumb(breadcrumbData)
   .card
-    .flex.flex-center.m-b-sm
+    .flex.flex-center
       h2.aubergine.m-v-md #{post.name}
-      span.p-l-sm
-        span.gray by&nbsp; 
-        a(href=`/u/${post.author.username}`).underline--hover @#{post.author.username}
-        |&nbsp;
-        span.gray on&nbsp;
-        span #{post.createdAtFormatted}
       span.flex__grow 
       if user
         a(href=`${currentPath + '/new-reply'}`) 
           span.button.button-primary New reply
+    .flex.flex-center.m-b-sm
+      span
+        span.gray by&nbsp; 
+        a(href=`/u/${post.author.username}`).underline--hover
+          if (post.author.avatar)
+            img(src=`${post.author.avatar}` alt=`${post.author.username}'s avatar` class="avatar p-r-xs")
+          |#{post.author.username}
+        |&nbsp;
+        span.gray.font-small on&nbsp;
+        span.font-small #{post.createdAtFormatted}
     hr
     
     .m-t-md.m-b-xl
@@ -38,7 +42,10 @@ block content
             span.dark-gray ##{index + 1 + skip}
             span.flex__grow
             span
-              a(href=`/u/${reply.replied_by.username}`).underline--hover @#{reply.replied_by.username}
+              a(href=`/u/${reply.replied_by.username}`).underline--hover 
+                if (reply.replied_by.avatar)
+                  img(src=`${reply.replied_by.avatar}` alt=`${reply.replied_by.username}'s avatar` class="avatar p-r-xs")
+                |#{reply.replied_by.username}
               |&nbsp;
               span.dark-gray.font-small on&nbsp;
               span.font-small #{reply.createdAtFormatted}

@@ -23,6 +23,8 @@ RUN npm install
 
 COPY . .
 
+USER ${USER}
+
 EXPOSE 3000
 
 CMD [ "./start.sh" ]
